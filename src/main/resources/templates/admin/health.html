@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('System Health &amp; Diagnostics')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <h2 class="fw-bold text-dark mb-1">System Health &amp; Runtime Diagnostics</h2>
+                <p class="text-muted mb-0 small">Live JVM runtime metrics, MySQL relational integrity verification, and database table statistics</p>
+            </div>
+            <div>
+                <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Control Hub
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Database & Server Health -->
+            <div class="col-lg-6">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-database-check text-success fs-3 me-2"></i>
+                        <h5 class="fw-bold text-dark mb-0">Database Connectivity &amp; JVM</h5>
+                    </div>
+
+                    <table class="table table-borderless align-middle mb-0">
+                        <tbody>
+                            <tr class="border-bottom">
+                                <td class="text-muted small py-2 fw-semibold">Database Status</td>
+                                <td class="py-2">
+                                    <span th:if="${health['Database Status'] == 'ONLINE'}" class="badge bg-success">
+                                        <i class="bi bi-check-circle me-1"></i> ONLINE &amp; CONNECTED
+                                    </span>
+                                    <span th:unless="${health['Database Status'] == 'ONLINE'}" class="badge bg-danger" th:text="${health['Database Status']}">
+                                        ERROR
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="border-bottom" th:if="${health['MySQL Version']}">
+                                <td class="text-muted small py-2 fw-semibold">MySQL Engine Version</td>
+                                <td class="py-2 fw-bold text-dark" th:text="${health['MySQL Version']}">8.0.33</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td class="text-muted small py-2 fw-semibold">Java Runtime</td>
+                                <td class="py-2 text-dark" th:text="${health['Java Version']}">26</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td class="text-muted small py-2 fw-semibold">JVM Implementation</td>
+                                <td class="py-2 text-dark small" th:text="${health['JVM Name']}">OpenJDK 64-Bit Server VM</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td class="text-muted small py-2 fw-semibold">Operating System</td>
+                                <td class="py-2 text-dark small" th:text="${health['OS']}">Windows 11 (amd64)</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td class="text-muted small py-2 fw-semibold">Server Uptime</td>
+                                <td class="py-2 text-dark fw-semibold" th:text="${health['Uptime (minutes)'] + ' minutes'}">45 minutes</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted small py-2 fw-semibold">JVM Heap Memory</td>
+                                <td class="py-2 text-dark fw-semibold" th:text="${health['Memory']}">180MB used / 512MB total</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Table Counts Card -->
+            <div class="col-lg-6">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-table text-primary fs-3 me-2"></i>
+                        <h5 class="fw-bold text-dark mb-0">Relational Database Row Counts</h5>
+                    </div>
+                    <p class="small text-muted mb-3">Real-time table record counts queried using Spring JdbcTemplate:</p>
+
+                    <div th:if="${health['Table Counts']}" class="table-responsive">
+                        <table class="table table-sm table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Database Entity / Table</th>
+                                    <th class="text-end">Record Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="tc : ${health['Table Counts']}">
+                                    <td class="font-monospace small text-primary fw-semibold" th:text="${tc.key}">users</td>
+                                    <td class="text-end fw-bold" th:text="${tc.value >= 0 ? tc.value : 'N/A'}">10</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

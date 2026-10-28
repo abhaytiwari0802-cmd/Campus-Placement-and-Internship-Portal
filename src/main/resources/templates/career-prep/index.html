@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Career Preparation &amp; Interview Hub')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <!-- Hero Banner -->
+        <div class="portal-card p-4 p-md-5 mb-4 bg-white border-start border-4 border-warning shadow-sm">
+            <div class="row align-items-center g-3">
+                <div class="col-lg-8">
+                    <span class="badge bg-warning text-dark fw-bold px-3 py-1 rounded-pill mb-2">
+                        <i class="bi bi-star-fill me-1"></i> TPO Academic Resource Centre
+                    </span>
+                    <h1 class="fw-bold text-dark display-6 mb-2">Campus Placement &amp; Interview Preparation Hub</h1>
+                    <p class="lead text-muted mb-3">
+                        Master technical coding rounds, core computer science concepts, quantitative aptitude, and HR behavioral interviews with our curated, syllabus-aligned preparation modules.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a th:href="@{/career-prep/weekly-plan}" class="btn btn-primary fw-semibold">
+                            <i class="bi bi-calendar-check me-1"></i> 8-Week Placement Roadmap
+                        </a>
+                        <a th:href="@{/student/jobs}" class="btn btn-outline-secondary">
+                            <i class="bi bi-briefcase me-1"></i> View Live Campus Drives
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center d-none d-lg-block">
+                    <i class="bi bi-mortarboard-fill text-warning opacity-75" style="font-size: 8rem;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6 Main Subject Pillars -->
+        <div class="row g-4 mb-4">
+            <!-- 1. Aptitude & Logical Reasoning -->
+            <div class="col-md-6 col-lg-4">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-primary-subtle text-primary p-3 me-3">
+                            <i class="bi bi-calculator fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-0">Quantitative &amp; Logic</h5>
+                            <span class="small text-muted">Round 1 Screening</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted flex-grow-1">
+                        Formulas, shortcuts, and worked examples for time &amp; work, speed &amp; distance, probability, syllogisms, and coding-decoding questions frequently asked by TCS, Infosys, and Cognizant.
+                    </p>
+                    <a th:href="@{/career-prep/aptitude}" class="btn btn-outline-primary btn-sm w-100 fw-semibold mt-2">
+                        Practice Aptitude <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. Java & Spring Boot -->
+            <div class="col-md-6 col-lg-4">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-danger-subtle text-danger p-3 me-3">
+                            <i class="bi bi-filetype-java fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-0">Java &amp; Spring Boot</h5>
+                            <span class="small text-muted">Core Software Engineering</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted flex-grow-1">
+                        In-depth technical review of Java 17/21 features, OOP principles, Collections Framework, multithreading &amp; concurrency, JVM internal architecture, Spring Boot microservices, and Spring Security.
+                    </p>
+                    <a th:href="@{/career-prep/technical-java}" class="btn btn-outline-danger btn-sm w-100 fw-semibold mt-2">
+                        Explore Java Questions <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3. SQL & DBMS -->
+            <div class="col-md-6 col-lg-4">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-success-subtle text-success p-3 me-3">
+                            <i class="bi bi-database-fill-gear fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-0">DBMS &amp; Advanced SQL</h5>
+                            <span class="small text-muted">Data &amp; Persistence</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted flex-grow-1">
+                        ACID properties, B-Tree and Hash Indexing, Normalization (1NF to BCNF), transaction isolation levels, query optimization, and complex SQL joins &amp; window functions with real interview queries.
+                    </p>
+                    <a th:href="@{/career-prep/technical-dbms}" class="btn btn-outline-success btn-sm w-100 fw-semibold mt-2">
+                        Review DBMS &amp; SQL <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4. Data Structures & Algorithms -->
+            <div class="col-md-6 col-lg-4">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-info-subtle text-info p-3 me-3">
+                            <i class="bi bi-diagram-3-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-0">Data Structures &amp; DSA</h5>
+                            <span class="small text-muted">Technical Coding Rounds</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted flex-grow-1">
+                        Algorithmic time complexity (Big-O), arrays, linked lists, binary search trees, heap priority queues, dynamic programming (DP), graph traversals (BFS/DFS), and top product company coding patterns.
+                    </p>
+                    <a th:href="@{/career-prep/dsa}" class="btn btn-outline-info btn-sm w-100 fw-semibold mt-2">
+                        Master DSA Concepts <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5. HR & Behavioral Interviews -->
+            <div class="col-md-6 col-lg-4">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-warning-subtle text-warning-emphasis p-3 me-3">
+                            <i class="bi bi-people-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-0">HR &amp; Behavioral Round</h5>
+                            <span class="small text-muted">Final Selection Round</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted flex-grow-1">
+                        The STAR method (Situation, Task, Action, Result), standard behavioral questions, handling gaps, strengths and weaknesses, salary negotiation tips, and Group Discussion (GD) leadership etiquettes.
+                    </p>
+                    <a th:href="@{/career-prep/hr-interview}" class="btn btn-outline-warning btn-sm w-100 fw-semibold mt-2">
+                        HR Interview Guide <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 6. 8-Week Placement Roadmap -->
+            <div class="col-md-6 col-lg-4">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 h-100 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-purple-subtle text-purple p-3 me-3" style="background-color: #f3e8ff; color: #7e22ce;">
+                            <i class="bi bi-calendar-week-fill fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-0">8-Week Prep Plan</h5>
+                            <span class="small text-muted">Structured Timetable</span>
+                        </div>
+                    </div>
+                    <p class="small text-muted flex-grow-1">
+                        Step-by-step master plan designed specifically for MCA final year candidates covering syllabus milestones, weekly mock tests, resume building, and GitHub project showcase guidelines.
+                    </p>
+                    <a th:href="@{/career-prep/weekly-plan}" class="btn btn-outline-dark btn-sm w-100 fw-semibold mt-2">
+                        View Study Schedule <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Select Registration Role')}"></head>
+<body class="bg-light">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-dark">Select Your Registration Role</h2>
+            <p class="text-muted">Choose your profile type to proceed with registration</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Student Option -->
+            <div class="col-md-5 col-lg-4">
+                <div class="portal-card h-100 p-4 text-center d-flex flex-column justify-content-between bg-white shadow-sm">
+                    <div>
+                        <div class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                            <i class="bi bi-mortarboard-fill fs-2"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">Student Registration</h4>
+                        <p class="small text-muted mb-4">
+                            For currently enrolled MCA, B.Tech, and postgraduate students seeking internships and full-time campus placement opportunities.
+                        </p>
+                        <ul class="list-unstyled text-start small text-secondary mb-4">
+                            <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i> Maintain academic profile &amp; CGPA</li>
+                            <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i> Upload &amp; update resumes</li>
+                            <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i> Track application status &amp; interviews</li>
+                        </ul>
+                    </div>
+                    <a th:href="@{/register/student}" class="btn btn-portal-primary py-2 fw-semibold">
+                        <i class="bi bi-person-plus me-1"></i> Register as Student
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recruiter Option -->
+            <div class="col-md-5 col-lg-4">
+                <div class="portal-card h-100 p-4 text-center d-flex flex-column justify-content-between bg-white shadow-sm">
+                    <div>
+                        <div class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                            <i class="bi bi-briefcase-fill fs-2"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-2">Recruiter Registration</h4>
+                        <p class="small text-muted mb-4">
+                            For corporate HR leaders, university hiring partners, and talent scouts seeking top technical graduates.
+                        </p>
+                        <ul class="list-unstyled text-start small text-secondary mb-4">
+                            <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i> Submit company profile for verification</li>
+                            <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i> Post job openings &amp; internships</li>
+                            <li class="mb-2"><i class="bi bi-check2 text-success me-2"></i> Review applicant resumes &amp; schedule rounds</li>
+                        </ul>
+                    </div>
+                    <a th:href="@{/register/recruiter}" class="btn btn-success py-2 fw-semibold">
+                        <i class="bi bi-building-add me-1"></i> Register as Recruiter
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <p class="small text-muted">Already registered on the portal? <a th:href="@{/login}" class="text-primary fw-semibold">Sign In here</a></p>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

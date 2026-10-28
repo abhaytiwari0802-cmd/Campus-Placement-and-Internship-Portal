@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Bookmarked Jobs')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="portal-card bg-white p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                <div>
+                    <h3 class="fw-bold text-dark mb-1"><i class="bi bi-bookmark-heart me-2 text-danger"></i>Saved Opportunities</h3>
+                    <p class="small text-muted mb-0">Bookmarked openings to review and apply prior to deadline expiration</p>
+                </div>
+                <a th:href="@{/student/jobs}" class="btn btn-outline-primary btn-sm">Browse More</a>
+            </div>
+
+            <div class="row g-4" th:if="${savedJobs != null and !savedJobs.empty}">
+                <div class="col-md-6 col-lg-4" th:each="saved : ${savedJobs}">
+                    <div class="portal-card h-100 d-flex flex-column justify-content-between p-4 bg-white border">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-primary-subtle text-primary" th:text="${saved.job.jobType.displayName}">Full Time</span>
+                                <small class="text-muted"><i class="bi bi-clock me-1"></i> Deadline: <span th:text="${saved.job.deadline}">2026-11-30</span></small>
+                            </div>
+                            <h5 class="fw-bold text-dark mb-1" th:text="${saved.job.title}">Job Title</h5>
+                            <p class="text-secondary fw-semibold mb-2" th:text="${saved.job.company.name}">Company Name</p>
+                            <div class="small text-muted mb-3">
+                                <div><i class="bi bi-geo-alt text-danger me-1"></i> <span th:text="${saved.job.location}">Bangalore</span></div>
+                                <div><i class="bi bi-cash text-success me-1"></i> <span th:text="${saved.job.salaryOrStipend}">18-24 LPA</span></div>
+                            </div>
+                        </div>
+
+                        <div class="border-top pt-3 d-flex justify-content-between align-items-center">
+                            <form th:action="@{/student/jobs/{id}/unsave(id=${saved.job.id})}" method="post">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Remove Bookmark">
+                                    <i class="bi bi-trash me-1"></i> Remove
+                                </button>
+                            </form>
+                            <a th:href="@{/student/jobs/{id}(id=${saved.job.id})}" class="btn btn-sm btn-portal-primary">
+                                View Details &amp; Apply
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="text-center py-5" th:if="${savedJobs == null or savedJobs.empty}">
+                <div class="display-3 text-muted mb-3"><i class="bi bi-bookmark"></i></div>
+                <h4 class="fw-bold text-dark">No Bookmarked Jobs</h4>
+                <p class="text-muted">You haven't bookmarked any opportunities yet.</p>
+                <a th:href="@{/student/jobs}" class="btn btn-portal-primary">Explore Openings</a>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

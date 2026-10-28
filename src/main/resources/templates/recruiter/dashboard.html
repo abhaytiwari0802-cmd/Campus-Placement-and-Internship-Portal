@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Recruiter Dashboard')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <!-- Recruiter Welcome Header -->
+        <div class="portal-card p-4 mb-4 bg-white border-start border-4 border-success">
+            <div class="row align-items-center g-3">
+                <div class="col-md-8">
+                    <span class="badge bg-success-subtle text-success fw-semibold px-3 py-1 rounded-pill mb-2">Corporate Recruitment Portal</span>
+                    <h2 class="fw-bold mb-1" th:text="${profile.user.fullName}">Sundar Raman</h2>
+                    <p class="text-muted mb-0 small">
+                        <strong>Designation:</strong> <span th:text="${profile.designation}">Talent Lead</span> |
+                        <strong>Affiliated Company:</strong> <span class="fw-bold text-dark" th:text="${profile.company != null ? profile.company.name : 'Unassigned'}">Google India</span> |
+                        <strong>Status:</strong>
+                        <span th:if="${profile.company != null and profile.company.approvalStatus.name() == 'APPROVED'}" class="badge bg-success">Approved Partner</span>
+                        <span th:if="${profile.company != null and profile.company.approvalStatus.name() == 'PENDING'}" class="badge bg-warning text-dark">Pending Admin Verification</span>
+                        <span th:if="${profile.company != null and profile.company.approvalStatus.name() == 'REJECTED'}" class="badge bg-danger">Verification Rejected</span>
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <a th:href="@{/recruiter/jobs/create}" class="btn btn-success fw-semibold">
+                        <i class="bi bi-plus-circle me-1"></i> Post New Vacancy
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 Key Stat Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-lg-3">
+                <div class="stat-card bg-primary-grad">
+                    <div>
+                        <div class="stat-number" th:text="${activeJobsCount}">3</div>
+                        <div class="stat-label">Active Job Openings</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-briefcase"></i></div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="stat-card bg-purple-grad">
+                    <div>
+                        <div class="stat-number" th:text="${totalApplicantsCount}">8</div>
+                        <div class="stat-label">Total Candidate Applications</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-people"></i></div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="stat-card bg-warning-grad">
+                    <div>
+                        <div class="stat-number" th:text="${shortlistedCount}">3</div>
+                        <div class="stat-label">Shortlisted Candidates</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-star"></i></div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="stat-card bg-success-grad">
+                    <div>
+                        <div class="stat-number" th:text="${interviewsCount}">2</div>
+                        <div class="stat-label">Interviews Conducted</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-calendar-check"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left: Active Jobs List -->
+            <div class="col-lg-7">
+                <div class="portal-card h-100 bg-white">
+                    <div class="portal-card-header bg-white">
+                        <span class="text-dark fw-bold"><i class="bi bi-card-list me-2 text-primary"></i>My Posted Opportunities</span>
+                        <a th:href="@{/recruiter/jobs}" class="btn btn-sm btn-outline-secondary">View All</a>
+                    </div>
+                    <div class="portal-card-body p-0">
+                        <div class="table-responsive" th:if="${myJobs != null and !myJobs.empty}">
+                            <table class="table portal-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Role Title</th>
+                                        <th>Type</th>
+                                        <th>Deadline</th>
+                                        <th>Status</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="job : ${myJobs}">
+                                        <td>
+                                            <a th:href="@{/recruiter/jobs/{id}/applicants(id=${job.id})}" class="fw-bold text-primary text-decoration-none" th:text="${job.title}">Job Title</a>
+                                            <div class="small text-muted"><i class="bi bi-geo-alt"></i> <span th:text="${job.location}">Bangalore</span></div>
+                                        </td>
+                                        <td><span class="badge bg-light text-dark border" th:text="${job.jobType.displayName}">Full Time</span></td>
+                                        <td class="small" th:text="${job.deadline}">2026-11-30</td>
+                                        <td>
+                                            <span th:if="${job.status.name() == 'ACTIVE'}" class="badge bg-success">Active</span>
+                                            <span th:if="${job.status.name() == 'CLOSED'}" class="badge bg-secondary">Closed</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a th:href="@{/recruiter/jobs/{id}/applicants(id=${job.id})}" class="btn btn-sm btn-outline-primary" title="View Applicants">
+                                                <i class="bi bi-people-fill"></i>
+                                            </a>
+                                            <a th:href="@{/recruiter/jobs/{id}/edit(id=${job.id})}" class="btn btn-sm btn-outline-secondary" title="Edit Job">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-4 text-center text-muted" th:if="${myJobs == null or myJobs.empty}">
+                            <p class="mb-2">You have not published any job opportunities yet.</p>
+                            <a th:href="@{/recruiter/jobs/create}" class="btn btn-sm btn-success">Publish Your First Opening</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Recent Applications & Quick Actions -->
+            <div class="col-lg-5">
+                <div class="portal-card bg-white mb-4">
+                    <div class="portal-card-header bg-white">
+                        <span class="text-dark fw-bold"><i class="bi bi-clock-history me-2 text-success"></i>Recent Candidate Applications</span>
+                    </div>
+                    <div class="portal-card-body p-0">
+                        <div class="list-group list-group-flush" th:if="${recentApplications != null and !recentApplications.empty}">
+                            <div class="list-group-item p-3" th:each="app : ${recentApplications}">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <strong class="text-dark" th:text="${app.student.fullName}">Rahul Sharma</strong>
+                                    <span th:class="'badge bg-' + ${app.status.badgeColor}" th:text="${app.status.label}">Applied</span>
+                                </div>
+                                <div class="small text-secondary mb-2" th:text="${app.job.title}">SDE-1</div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted"><i class="bi bi-calendar me-1"></i> <span th:text="${#temporals.format(app.appliedAt, 'dd MMM yyyy')}">25 Oct</span></small>
+                                    <a th:href="@{/recruiter/applications/{id}(id=${app.id})}" class="btn btn-sm btn-outline-primary py-0">Review Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center text-muted" th:if="${recentApplications == null or recentApplications.empty}">
+                            <small>No applications received yet.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

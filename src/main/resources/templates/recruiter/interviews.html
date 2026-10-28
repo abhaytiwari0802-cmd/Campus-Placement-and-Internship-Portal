@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Scheduled Interviews')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <h2 class="fw-bold text-dark mb-1">Recruitment Interview Schedule</h2>
+                <p class="text-muted mb-0 small">Track all scheduled virtual and in-person campus interview rounds for your company</p>
+            </div>
+            <div>
+                <a th:href="@{/recruiter/jobs}" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-briefcase me-1"></i> Browse Postings
+                </a>
+            </div>
+        </div>
+
+        <div class="portal-card p-4 bg-white shadow-sm border-0">
+            <div th:if="${interviews != null and !interviews.isEmpty()}" class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Candidate</th>
+                            <th>Job Role</th>
+                            <th>Date &amp; Time</th>
+                            <th>Mode</th>
+                            <th>Location / Meeting Link</th>
+                            <th>Interviewer</th>
+                            <th>Status</th>
+                            <th class="text-end">Application</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="inv : ${interviews}">
+                            <td>
+                                <div class="fw-bold text-dark" th:text="${inv.application.student.fullName}">Rahul Sharma</div>
+                                <div class="small text-muted" th:text="${inv.application.student.email}">rahul@campus.edu</div>
+                            </td>
+                            <td>
+                                <div class="fw-semibold text-primary" th:text="${inv.application.job.title}">Cloud Support Associate</div>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark" th:text="${#temporals.format(inv.interviewDate, 'dd MMM yyyy')}">25 Oct 2026</div>
+                                <div class="small text-muted" th:text="${#temporals.format(inv.interviewTime, 'hh:mm a')}">11:00 AM</div>
+                            </td>
+                            <td>
+                                <span th:if="${inv.mode.name() == 'ONLINE'}" class="badge bg-info text-dark">
+                                    <i class="bi bi-camera-video me-1"></i> Virtual
+                                </span>
+                                <span th:if="${inv.mode.name() == 'OFFLINE'}" class="badge bg-secondary">
+                                    <i class="bi bi-building me-1"></i> On-Campus
+                                </span>
+                            </td>
+                            <td class="small">
+                                <a th:if="${inv.locationOrLink.startsWith('http')}" th:href="${inv.locationOrLink}" target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2">
+                                    <i class="bi bi-box-arrow-up-right me-1"></i> Join Meet
+                                </a>
+                                <span th:unless="${inv.locationOrLink.startsWith('http')}" th:text="${inv.locationOrLink}">Room 402</span>
+                            </td>
+                            <td class="small text-secondary" th:text="${inv.interviewerName != null ? inv.interviewerName : 'Campus Hiring Panel'}">Panel Lead</td>
+                            <td>
+                                <span th:if="${inv.status.name() == 'SCHEDULED'}" class="badge bg-warning text-dark">Scheduled</span>
+                                <span th:if="${inv.status.name() == 'COMPLETED'}" class="badge bg-success">Completed</span>
+                                <span th:if="${inv.status.name() == 'CANCELLED'}" class="badge bg-danger">Cancelled</span>
+                                <span th:if="${inv.status.name() == 'RESCHEDULED'}" class="badge bg-info">Rescheduled</span>
+                            </td>
+                            <td class="text-end">
+                                <a th:href="@{/recruiter/applications/{id}(id=${inv.application.id})}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-eye"></i> Details
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div th:if="${interviews == null or interviews.isEmpty()}" class="text-center py-5">
+                <i class="bi bi-calendar-x text-muted" style="font-size: 3.5rem;"></i>
+                <h5 class="fw-bold mt-3 mb-1">No Interviews Scheduled</h5>
+                <p class="text-muted small mb-0">Navigate to an applicant's evaluation page from your job listings to schedule interview rounds.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

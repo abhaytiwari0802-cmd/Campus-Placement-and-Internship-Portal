@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Contact Placement Cell')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-5">
+        <div class="row g-5">
+            <div class="col-lg-5">
+                <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-2 rounded-pill mb-3">TPO Helpdesk</span>
+                <h1 class="fw-bold mb-4">Connect With Placement Leadership</h1>
+                <p class="text-secondary mb-4">
+                    For campus interview coordination, recruiter tie-ups, or student grievance redressal, please reach out through our official channels.
+                </p>
+
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-primary-subtle text-primary p-3 me-3">
+                        <i class="bi bi-geo-alt-fill fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0">Office Location</h6>
+                        <small class="text-muted">Training &amp; Placement Cell, Administrative Block IV, Ground Floor</small>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-success-subtle text-success p-3 me-3">
+                        <i class="bi bi-envelope-fill fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0">Official Email</h6>
+                        <small class="text-muted">tpo-office@campus.edu / placements@campus.edu</small>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-warning-subtle text-warning p-3 me-3">
+                        <i class="bi bi-telephone-fill fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0">Telephone &amp; Helpline</h6>
+                        <small class="text-muted">+91 (011) 2659-7135 / +91 9876543210</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="portal-card p-4 shadow-sm bg-white">
+                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-chat-left-dots me-2"></i>Send an Inquiry</h5>
+                    <form onsubmit="alert('Thank you! Your inquiry has been logged with the Placement Desk.'); return false;">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Your Full Name</label>
+                                <input type="text" class="form-control" required placeholder="Enter full name">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Email Address</label>
+                                <input type="email" class="form-control" required placeholder="name@domain.com">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Subject</label>
+                                <input type="text" class="form-control" required placeholder="e.g. Recruiter Campus Drive Inquiry / Student Verification">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Message</label>
+                                <textarea class="form-control" rows="4" required placeholder="Write your inquiry details..."></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-portal-primary px-4"><i class="bi bi-send me-2"></i>Submit Inquiry</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

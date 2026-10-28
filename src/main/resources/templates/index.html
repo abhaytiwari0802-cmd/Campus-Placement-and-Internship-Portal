@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Home')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section text-center text-lg-start">
+            <div class="container py-4">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-7">
+                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-3">
+                            <i class="bi bi-stars me-1"></i> Official Training &amp; Placement System
+                        </span>
+                        <h1 class="display-4 fw-extrabold text-white mb-3">
+                            Launch Your Career with Top Global Employers
+                        </h1>
+                        <p class="lead mb-4 text-light opacity-90">
+                            A centralized, transparent campus placement management ecosystem uniting MCA &amp; engineering students, global tech recruiters, and university administration.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+                            <a th:href="@{/register/student}" sec:authorize="!isAuthenticated()" class="btn btn-warning btn-lg fw-bold text-dark px-4 py-2 shadow-sm">
+                                <i class="bi bi-mortarboard me-2"></i> Student Registration
+                            </a>
+                            <a th:href="@{/register/recruiter}" sec:authorize="!isAuthenticated()" class="btn btn-outline-light btn-lg fw-semibold px-4 py-2">
+                                <i class="bi bi-briefcase me-2"></i> Recruiter Registration
+                            </a>
+                            <a th:href="@{/student/jobs}" sec:authorize="hasRole('STUDENT')" class="btn btn-warning btn-lg fw-bold text-dark px-4 py-2">
+                                <i class="bi bi-search me-2"></i> View Openings
+                            </a>
+                            <a th:href="@{/recruiter/jobs/create}" sec:authorize="hasRole('RECRUITER')" class="btn btn-warning btn-lg fw-bold text-dark px-4 py-2">
+                                <i class="bi bi-plus-circle me-2"></i> Post Job Posting
+                            </a>
+                            <a th:href="@{/career-prep}" class="btn btn-outline-light btn-lg px-4 py-2">
+                                <i class="bi bi-book me-2"></i> Career Prep Hub
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-center">
+                        <div class="portal-card p-4 shadow-lg text-dark bg-white">
+                            <h4 class="fw-bold mb-3 text-primary"><i class="bi bi-speedometer2 me-2"></i>Placement Highlights</h4>
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="p-3 bg-light rounded text-center border">
+                                        <h3 class="fw-bold text-primary mb-0" th:text="${totalActiveJobs}">12</h3>
+                                        <small class="text-muted fw-semibold">Active Jobs</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 bg-light rounded text-center border">
+                                        <h3 class="fw-bold text-success mb-0" th:text="${totalCompanies}">18</h3>
+                                        <small class="text-muted fw-semibold">Hiring Partners</small>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="p-3 bg-primary-subtle rounded text-center border border-primary-subtle">
+                                        <h3 class="fw-bold text-primary mb-0" th:text="${totalStudents}">150+</h3>
+                                        <small class="text-primary fw-semibold">Registered Candidates</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Announcements Banner -->
+        <section class="container my-5" th:if="${announcements != null and !announcements.empty}">
+            <div class="portal-card border-start border-4 border-primary">
+                <div class="portal-card-header bg-white">
+                    <span class="text-primary fw-bold"><i class="bi bi-megaphone-fill me-2"></i>University Placement Bulletins</span>
+                    <span class="badge bg-danger rounded-pill">Urgent / Important</span>
+                </div>
+                <div class="portal-card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6" th:each="ann : ${announcements}">
+                            <div class="p-3 rounded bg-light border h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="fw-bold text-dark mb-0" th:text="${ann.title}">Announcement Title</h6>
+                                    <span class="badge bg-secondary" th:text="${ann.priority}">NORMAL</span>
+                                </div>
+                                <p class="small text-secondary mb-2" th:text="${ann.content}">Announcement content preview...</p>
+                                <small class="text-muted"><i class="bi bi-clock me-1"></i> Posted on: <span th:text="${#temporals.format(ann.createdAt, 'dd MMM yyyy')}">25 Oct 2026</span></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Approved Hiring Partners -->
+        <section class="container my-5">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">Premier Hiring Partners</h2>
+                <p class="text-muted">Top multi-national organizations actively recruiting our graduates</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4 col-lg-3" th:each="comp : ${companies}">
+                    <div class="portal-card text-center p-4 h-100">
+                        <div class="display-6 text-primary mb-2">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1" th:text="${comp.name}">Company Name</h5>
+                        <p class="small text-muted mb-2" th:text="${comp.industry}">Information Technology</p>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle mb-3">
+                            <i class="bi bi-check-circle me-1"></i> Verified Partner
+                        </span>
+                        <div class="small text-secondary" th:text="${comp.location}">Location</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Architecture & Process Workflow -->
+        <section class="bg-light py-5 border-top border-bottom">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold text-dark">How The Placement Portal Works</h2>
+                    <p class="text-muted">Streamlined recruitment lifecycle with strict server-side validation</p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="portal-card p-4 h-100 text-center">
+                            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
+                                <i class="bi bi-file-earmark-person fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold">1. Candidate Profile &amp; Resume</h5>
+                            <p class="small text-muted">Students build their academic profile, record CGPA &amp; branch, and securely upload their validated PDF resumes.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="portal-card p-4 h-100 text-center">
+                            <div class="rounded-circle bg-success text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
+                                <i class="bi bi-search fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold">2. Job Match &amp; Applications</h5>
+                            <p class="small text-muted">Intelligent eligibility checks verify CGPA and course prerequisites before candidates submit single or multiple job applications.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="portal-card p-4 h-100 text-center">
+                            <div class="rounded-circle bg-warning text-dark d-inline-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
+                                <i class="bi bi-calendar2-check fs-3"></i>
+                            </div>
+                            <h5 class="fw-bold">3. Interviews &amp; Selection</h5>
+                            <p class="small text-muted">Recruiters shortlist applicants, schedule online or campus interviews, and track student recruitment status in real time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

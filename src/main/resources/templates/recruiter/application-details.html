@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Application Review &amp; Evaluation')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <!-- Top Back Nav -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a th:href="${application.job != null} ? @{/recruiter/jobs/{id}/applicants(id=${application.job.id})} : @{/recruiter/jobs}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Back to Applicants List
+            </a>
+            <span class="small text-muted" th:text="${'Application Ref: #' + application.id}">Application Ref #1</span>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Column: Candidate & Job Details -->
+            <div class="col-lg-7">
+                <!-- Candidate Info Card -->
+                <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-3">
+                        <div>
+                            <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-semibold mb-2">Candidate Profile</span>
+                            <h3 class="fw-bold text-dark mb-1" th:text="${application.student != null ? application.student.fullName : 'Applicant'}">Rahul Sharma</h3>
+                            <p class="text-muted small mb-0" th:if="${application.student != null}">
+                                <i class="bi bi-envelope me-1"></i> <span th:text="${application.student.email}">rahul@campus.edu</span> |
+                                <i class="bi bi-telephone me-1"></i> <span th:text="${application.student.phone}">+91 9876543210</span>
+                            </p>
+                        </div>
+                        <div th:if="${application.resume != null}">
+                            <a th:href="@{/recruiter/resumes/{id}/download(id=${application.resume.id})}" class="btn btn-danger btn-sm px-3">
+                                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Download Resume
+                            </a>
+                        </div>
+                    </div>
+
+                    <div th:if="${application.student != null and application.student.studentProfile != null}" class="row g-3 mb-4">
+                        <div class="col-sm-6">
+                            <span class="text-muted small">Enrollment / Roll No:</span>
+                            <div class="fw-bold" th:text="${application.student.studentProfile.enrollmentNumber}">MCA/2024/001</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <span class="text-muted small">Cumulative CGPA:</span>
+                            <div>
+                                <span class="badge bg-success fs-6" th:text="${application.student.studentProfile.cgpa}">8.85</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <span class="text-muted small">Academic Program &amp; Branch:</span>
+                            <div class="fw-semibold" th:text="${application.student.studentProfile.course + ' - ' + application.student.studentProfile.branch}">MCA - Computer Science</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <span class="text-muted small">Graduation Year:</span>
+                            <div class="fw-semibold" th:text="${application.student.studentProfile.graduationYear}">2026</div>
+                        </div>
+                        <div class="col-12" th:if="${application.student.studentProfile.linkedinUrl}">
+                            <span class="text-muted small">LinkedIn Profile:</span>
+                            <div>
+                                <a th:href="${application.student.studentProfile.linkedinUrl}" target="_blank" class="text-primary text-decoration-none small">
+                                    <i class="bi bi-linkedin me-1"></i> <span th:text="${application.student.studentProfile.linkedinUrl}">LinkedIn Profile</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills & Projects -->
+                    <div th:if="${application.student != null and application.student.studentProfile != null}">
+                        <div class="mb-3" th:if="${application.student.studentProfile.skills}">
+                            <h6 class="fw-bold text-dark small mb-2"><i class="bi bi-tools me-1 text-primary"></i> Skills &amp; Technologies</h6>
+                            <p class="small text-secondary bg-light p-3 rounded mb-0" th:text="${application.student.studentProfile.skills}">Java, Spring Boot, MySQL</p>
+                        </div>
+                        <div class="mb-3" th:if="${application.student.studentProfile.projects}">
+                            <h6 class="fw-bold text-dark small mb-2"><i class="bi bi-code-slash me-1 text-primary"></i> Academic &amp; Personal Projects</h6>
+                            <div class="small text-secondary bg-light p-3 rounded" style="white-space: pre-line;" th:text="${application.student.studentProfile.projects}">Projects list...</div>
+                        </div>
+                        <div class="mb-3" th:if="${application.student.studentProfile.certifications}">
+                            <h6 class="fw-bold text-dark small mb-2"><i class="bi bi-patch-check me-1 text-primary"></i> Certifications &amp; Accreditations</h6>
+                            <p class="small text-secondary bg-light p-3 rounded mb-0" th:text="${application.student.studentProfile.certifications}">Certifications...</p>
+                        </div>
+                    </div>
+
+                    <!-- Cover Letter -->
+                    <div class="mt-4 pt-3 border-top">
+                        <h6 class="fw-bold text-dark small mb-2"><i class="bi bi-file-text me-1 text-primary"></i> Candidate Cover Note / Statement</h6>
+                        <div class="bg-light p-3 rounded small text-secondary fst-italic" th:text="${application.coverLetter != null and !application.coverLetter.isEmpty() ? application.coverLetter : 'No statement provided by candidate.'}">
+                            Cover note...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status History Timeline Card -->
+                <div class="portal-card p-4 bg-white shadow-sm border-0">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-clock-history me-2 text-primary"></i>Application Audit Trail</h5>
+                    <div th:if="${history != null and !history.isEmpty()}" class="timeline">
+                        <div th:each="hist : ${history}" class="border-start border-2 border-primary ps-3 pb-3 position-relative">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="badge bg-primary-subtle text-primary fw-semibold" th:text="${hist.newStatus != null ? hist.newStatus.label : 'Updated'}">Shortlisted</span>
+                                <span class="small text-muted" th:text="${hist.changedAt != null ? #temporals.format(hist.changedAt, 'dd MMM yyyy, hh:mm a') : ''}">22 Oct 2026, 10:30 AM</span>
+                            </div>
+                            <p class="small text-dark mb-1" th:text="${hist.remarks != null ? hist.remarks : ''}">Remarks...</p>
+                            <span class="small text-muted fst-italic" th:text="${'Action by: ' + (hist.changedByUser != null ? hist.changedByUser.fullName : (hist.changedBy != null ? hist.changedBy.fullName : 'System'))}">Action by Recruiter</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Actions (Status Update & Interview Schedule) -->
+            <div class="col-lg-5">
+                <!-- Status Update Form -->
+                <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4 border-top border-4 border-primary">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-pencil-square me-2 text-primary"></i>Update Application Status</h5>
+
+                    <form th:action="@{/recruiter/applications/{id}/update-status(id=${application.id})}" th:object="${statusUpdateDto}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Candidate Status *</label>
+                            <select th:field="*{status}" class="form-select" required>
+                                <option th:each="st : ${T(com.portal.model.ApplicationStatus).values()}"
+                                        th:if="${st.name() != 'WITHDRAWN'}"
+                                        th:value="${st}"
+                                        th:text="${st.label}">Shortlisted</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Feedback / Evaluation Notes</label>
+                            <textarea th:field="*{remarks}" class="form-control" rows="3" placeholder="Enter remarks (visible in student status log &amp; audit history)..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 fw-semibold">
+                            <i class="bi bi-check2-circle me-1"></i> Update Status
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Interview Scheduling Form -->
+                <div class="portal-card p-4 bg-white shadow-sm border-0 border-top border-4 border-warning">
+                    <h5 class="fw-bold text-dark mb-2"><i class="bi bi-calendar-plus me-2 text-warning"></i>Schedule Interview Round</h5>
+                    <p class="small text-muted mb-3">Scheduling an interview notifies the student directly and updates their schedule calendar.</p>
+
+                    <form th:action="@{/recruiter/interviews/schedule}" th:object="${scheduleDto}" method="post">
+                        <input type="hidden" th:field="*{applicationId}">
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Interview Mode *</label>
+                            <select th:field="*{interviewMode}" class="form-select" required>
+                                <option th:each="mode : ${T(com.portal.model.InterviewMode).values()}"
+                                        th:value="${mode}"
+                                        th:text="${mode.label}">Online Virtual</option>
+                            </select>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-sm-6">
+                                <label class="form-label small fw-semibold">Date *</label>
+                                <input type="date" th:field="*{interviewDate}" class="form-control" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label small fw-semibold">Time *</label>
+                                <input type="time" th:field="*{interviewTime}" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Meeting Link / Physical Venue *</label>
+                            <input type="text" th:field="*{locationOrLink}" class="form-control" placeholder="https://meet.google.com/xyz or Room 402, Block IV" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Interviewer / Panel Name</label>
+                            <input type="text" th:field="*{interviewerName}" class="form-control" placeholder="e.g. Technical Panel / Sr. Lead Architect">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Special Instructions for Student</label>
+                            <textarea th:field="*{instructions}" class="form-control" rows="2" placeholder="e.g. Keep code editor open, prepare DSA questions..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning text-dark w-100 fw-semibold">
+                            <i class="bi bi-send-check me-1"></i> Schedule &amp; Send Alert
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

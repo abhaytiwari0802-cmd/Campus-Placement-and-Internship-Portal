@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Create Job Opening')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                <!-- Company Approval Warning -->
+                <div th:if="${companyNotApproved}" class="alert alert-warning d-flex align-items-center mb-4" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Company Approval Pending</h6>
+                        <span th:if="${company == null}">You have not registered or associated your profile with a company yet. Please register your company first before posting jobs.</span>
+                        <span th:if="${company != null}">Your company <strong><span th:text="${company.name}">Company</span></strong> is currently <strong><span th:text="${company.approvalStatus}">PENDING</span></strong> administrative accreditation. Job postings will only go live once approved by the TPO administrator.</span>
+                    </div>
+                </div>
+
+                <div class="portal-card p-4 p-md-5 bg-white shadow-sm border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                        <div>
+                            <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill fw-semibold mb-2">Campus Recruitment</span>
+                            <h3 class="fw-bold text-dark mb-0">Post New Opportunity</h3>
+                        </div>
+                        <a th:href="@{/recruiter/jobs}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i> Back to Jobs
+                        </a>
+                    </div>
+
+                    <form th:action="@{/recruiter/jobs/create}" th:object="${jobDto}" method="post">
+                        <input type="hidden" th:field="*{companyId}">
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label small fw-semibold">Job Title / Role *</label>
+                                <input type="text" th:field="*{title}" class="form-control" placeholder="e.g. Associate Software Engineer / Data Analyst" required>
+                                <div class="invalid-feedback d-block" th:errors="*{title}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Hiring Organization</label>
+                                <input type="text" th:field="*{companyName}" class="form-control bg-light" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Employment Type *</label>
+                                <select th:field="*{jobType}" class="form-select" required>
+                                    <option th:each="type : ${T(com.portal.model.JobType).values()}"
+                                            th:value="${type}"
+                                            th:text="${type.displayName != null ? type.displayName : type.name()}">Full Time</option>
+                                </select>
+                                <div class="invalid-feedback d-block" th:errors="*{jobType}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Work Location *</label>
+                                <input type="text" th:field="*{location}" class="form-control" placeholder="e.g. Bangalore, Pune, Remote" required>
+                                <div class="invalid-feedback d-block" th:errors="*{location}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Salary / Stipend *</label>
+                                <input type="text" th:field="*{salaryOrStipend}" class="form-control" placeholder="e.g. INR 12-16 LPA or ₹30,000/mo" required>
+                                <div class="invalid-feedback d-block" th:errors="*{salaryOrStipend}"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Minimum Eligibility CGPA (0.0 to 10.0)</label>
+                                <input type="number" step="0.01" min="0" max="10" th:field="*{minCgpa}" class="form-control" placeholder="e.g. 7.50">
+                                <div class="invalid-feedback d-block" th:errors="*{minCgpa}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Total Vacancies / Openings *</label>
+                                <input type="number" min="1" th:field="*{openings}" class="form-control" required>
+                                <div class="invalid-feedback d-block" th:errors="*{openings}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Application Deadline *</label>
+                                <input type="date" th:field="*{deadline}" class="form-control" required>
+                                <div class="invalid-feedback d-block" th:errors="*{deadline}"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Eligible Degree Programs / Branches</label>
+                            <input type="text" th:field="*{allowedBranches}" class="form-control" placeholder="e.g. MCA, B.Tech CSE, IT, Electronics">
+                            <div class="form-text small">Leave empty if open to all university branches.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Required Skills &amp; Competencies</label>
+                            <input type="text" th:field="*{requiredSkills}" class="form-control" placeholder="e.g. Java, Spring Boot, MySQL, REST APIs, Git">
+                            <div class="form-text small">Comma-separated list of required programming languages and frameworks.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label small fw-semibold">Comprehensive Job Description &amp; Responsibilities *</label>
+                            <textarea th:field="*{description}" class="form-control" rows="6" placeholder="Provide full role responsibilities, team structure, hiring rounds, and perks..." required></textarea>
+                            <div class="invalid-feedback d-block" th:errors="*{description}"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a th:href="@{/recruiter/jobs}" class="btn btn-outline-secondary px-4">Cancel</a>
+                            <button type="submit" class="btn btn-success px-4 fw-semibold">
+                                <i class="bi bi-cloud-arrow-up me-1"></i> Publish Opportunity
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

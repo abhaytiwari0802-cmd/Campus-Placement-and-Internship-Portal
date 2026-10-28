@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Java &amp; Spring Boot Interview Master')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small">
+                        <li class="breadcrumb-item"><a th:href="@{/career-prep}">Career Prep</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Java &amp; Spring Boot</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold text-dark mb-1">Java &amp; Spring Boot Interview Preparation</h2>
+                <p class="text-muted mb-0 small">Comprehensive technical review of Java 17/21 concepts, JVM internals, multithreading, and Spring Boot architecture</p>
+            </div>
+            <div>
+                <a th:href="@{/career-prep}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Career Hub
+                </a>
+            </div>
+        </div>
+
+        <!-- Section 1: Java Core & Modern Features -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-filetype-java text-danger me-2"></i>Core Java Architecture &amp; OOP Essentials</h4>
+
+            <div class="accordion" id="javaCoreAccordion">
+                <!-- Question 1 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="jHead1">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#jCollapse1" aria-expanded="false" aria-controls="jCollapse1">
+                            1. How does JVM Memory Management work? (Heap vs Stack, Garbage Collection)
+                        </button>
+                    </h2>
+                    <div id="jCollapse1" class="accordion-collapse collapse" aria-labelledby="jHead1" data-bs-parent="#javaCoreAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p><strong>Stack Memory:</strong> Stores primitive local variables and execution frames for thread execution. Memory allocation is LIFO and automatically cleared when method execution finishes. Each thread has its own private stack.</p>
+                            <p><strong>Heap Memory:</strong> Shared among all threads; stores all instantiated objects. Divided into:
+                                <ul>
+                                    <li><strong>Young Generation:</strong> Eden space and Survivor spaces (S0, S1). Objects created here; collected by Minor GC.</li>
+                                    <li><strong>Old (Tenured) Generation:</strong> Holds long-surviving objects. Major/Full GC runs here (e.g. G1GC, ZGC).</li>
+                                    <li><strong>Metaspace (Java 8+):</strong> Replaced PermGen; allocated out of native OS memory for class metadata.</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="jHead2">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#jCollapse2" aria-expanded="false" aria-controls="jCollapse2">
+                            2. How does <code>HashMap</code> work internally in Java 8 and beyond?
+                        </button>
+                    </h2>
+                    <div id="jCollapse2" class="accordion-collapse collapse" aria-labelledby="jHead2" data-bs-parent="#javaCoreAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p><code>HashMap</code> is an array of <code>Node&lt;K,V&gt;</code> buckets with a default capacity of 16 and a load factor of 0.75.</p>
+                            <ol>
+                                <li>When <code>put(key, value)</code> is invoked, it calculates <code>hash(key)</code> and maps to an index: <code>index = (n - 1) &amp; hash</code>.</li>
+                                <li>If a collision occurs, entries are stored in a linked list.</li>
+                                <li><strong>Java 8 Optimization:</strong> When the number of collisions in a single bucket exceeds the <code>TREEIFY_THRESHOLD</code> (8) and the total table capacity is at least 64, the bucket transforms from a linked list (O(n)) into a <strong>Red-Black Balanced Tree</strong> (O(log n)), preventing DoS collision attacks.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="jHead3">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#jCollapse3" aria-expanded="false" aria-controls="jCollapse3">
+                            3. Explain modern Java features: Records, Sealed Classes, and Virtual Threads (Java 21).
+                        </button>
+                    </h2>
+                    <div id="jCollapse3" class="accordion-collapse collapse" aria-labelledby="jHead3" data-bs-parent="#javaCoreAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <ul>
+                                <li><strong>Records (Java 16+):</strong> Immutable data carriers that automatically generate private final fields, constructor, getters, <code>equals()</code>, <code>hashCode()</code>, and <code>toString()</code>:
+                                    <pre class="bg-dark text-white p-2 rounded mt-1">public record UserDto(Long id, String email, String name) {}</pre>
+                                </li>
+                                <li><strong>Sealed Classes (Java 17+):</strong> Restrict which other classes or interfaces may extend or implement them:
+                                    <pre class="bg-dark text-white p-2 rounded mt-1">public sealed class Shape permits Circle, Square {}</pre>
+                                </li>
+                                <li><strong>Virtual Threads (Project Loom, Java 21+):</strong> Lightweight threads managed by the JVM rather than the OS kernel. Millions of virtual threads can run concurrently with near-zero memory footprint, revolutionizing high-throughput I/O in Spring Boot 3.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="accordion-item border rounded">
+                    <h2 class="accordion-header" id="jHead4">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#jCollapse4" aria-expanded="false" aria-controls="jCollapse4">
+                            4. What is the contract between <code>equals()</code> and <code>hashCode()</code>?
+                        </button>
+                    </h2>
+                    <div id="jCollapse4" class="accordion-collapse collapse" aria-labelledby="jHead4" data-bs-parent="#javaCoreAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p>The contract stipulates:</p>
+                            <ul>
+                                <li>If two objects are equal via <code>a.equals(b) == true</code>, their <code>hashCode()</code> values MUST be equal.</li>
+                                <li>If two objects have the same <code>hashCode()</code>, they do NOT necessarily have to be equal (hash collision).</li>
+                                <li>If you override <code>equals()</code>, you MUST override <code>hashCode()</code>; otherwise, hashing collections like <code>HashSet</code> and <code>HashMap</code> will fail to locate or deduplicate objects correctly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Spring Boot & Enterprise Architecture -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-layers-fill text-primary me-2"></i>Spring Boot &amp; Spring Framework Concepts</h4>
+
+            <div class="accordion" id="springAccordion">
+                <!-- Spring Q1 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="sHead1">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#sCollapse1" aria-expanded="false" aria-controls="sCollapse1">
+                            1. What is Inversion of Control (IoC) and Dependency Injection (DI)? Why constructor injection over field injection?
+                        </button>
+                    </h2>
+                    <div id="sCollapse1" class="accordion-collapse collapse" aria-labelledby="sHead1" data-bs-parent="#springAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p><strong>IoC:</strong> A software design principle where the control of object creation and lifecycle is inverted from application code to the framework container (ApplicationContext).</p>
+                            <p><strong>Dependency Injection:</strong> The mechanism by which the container injects required dependent objects into a bean.</p>
+                            <p><strong>Why Constructor Injection is Preferred:</strong></p>
+                            <ul>
+                                <li><strong>Immutability:</strong> Dependencies can be declared as <code>private final</code>.</li>
+                                <li><strong>Null Safety:</strong> Prevents <code>NullPointerException</code> at runtime if a dependency is omitted.</li>
+                                <li><strong>Testability:</strong> Objects can easily be instantiated in unit tests using standard <code>new Service(mockRepo)</code> without needing Spring test reflection.</li>
+                                <li>Prevents circular dependency traps at compile/startup time.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spring Q2 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="sHead2">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#sCollapse2" aria-expanded="false" aria-controls="sCollapse2">
+                            2. How does <code>@Transactional</code> work under the hood in Spring Data JPA?
+                        </button>
+                    </h2>
+                    <div id="sCollapse2" class="accordion-collapse collapse" aria-labelledby="sHead2" data-bs-parent="#springAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p>Spring uses <strong>AOP (Aspect-Oriented Programming) Proxies</strong> (CGLIB or JDK dynamic proxies). When a method annotated with <code>@Transactional</code> is called from outside the bean:</p>
+                            <ol>
+                                <li>The proxy intercepts the call and obtains a connection from the <code>PlatformTransactionManager</code>.</li>
+                                <li>It sets <code>connection.setAutoCommit(false)</code>.</li>
+                                <li>The target business method executes.</li>
+                                <li>If the method completes normally, the proxy issues <code>connection.commit()</code>.</li>
+                                <li>If an unchecked exception (<code>RuntimeException</code> or <code>Error</code>) is thrown, the proxy automatically invokes <code>connection.rollback()</code>.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spring Q3 -->
+                <div class="accordion-item border rounded">
+                    <h2 class="accordion-header" id="sHead3">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#sCollapse3" aria-expanded="false" aria-controls="sCollapse3">
+                            3. Explain the difference between Spring Data JPA and Spring JDBC (JdbcTemplate).
+                        </button>
+                    </h2>
+                    <div id="sCollapse3" class="accordion-collapse collapse" aria-labelledby="sHead3" data-bs-parent="#springAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th>Feature</th>
+                                            <th>Spring Data JPA / Hibernate</th>
+                                            <th>Spring JDBC (JdbcTemplate)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Paradigm</strong></td>
+                                            <td>Object-Relational Mapping (ORM)</td>
+                                            <td>Direct parameterized SQL execution</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Best Use Case</strong></td>
+                                            <td>Transactional domain CRUD, entity relationships</td>
+                                            <td>Complex multi-table aggregations, analytical reports</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Performance</strong></td>
+                                            <td>Higher overhead (dirty checking, proxying)</td>
+                                            <td>Near-native JDBC raw speed and low memory</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Query Control</strong></td>
+                                            <td>JPQL / Derived Queries / Criteria</td>
+                                            <td>Exact SQL statements &amp; custom RowMappers</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

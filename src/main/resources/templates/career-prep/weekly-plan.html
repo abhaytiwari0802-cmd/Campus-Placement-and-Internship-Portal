@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('8-Week Campus Placement Plan')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small">
+                        <li class="breadcrumb-item"><a th:href="@{/career-prep}">Career Prep</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">8-Week Roadmap</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold text-dark mb-1">8-Week Comprehensive Campus Placement Roadmap</h2>
+                <p class="text-muted mb-0 small">A methodical week-by-week timetable designed for MCA master's students to prepare for high-package campus recruitment</p>
+            </div>
+            <div>
+                <a th:href="@{/career-prep}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Career Hub
+                </a>
+            </div>
+        </div>
+
+        <!-- Weekly Roadmap Grid -->
+        <div class="row g-4">
+            <!-- Week 1-2: Core Foundations -->
+            <div class="col-md-6">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 border-top border-4 border-primary h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-primary">Weeks 1 &amp; 2</span>
+                        <span class="small text-muted">Aptitude &amp; Core Java</span>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-3">Foundations &amp; Screening Preparation</h5>
+                    <ul class="small text-secondary ps-3 mb-3">
+                        <li class="mb-1"><strong>Quantitative Aptitude:</strong> Time &amp; work, percentages, profit &amp; loss, trains, and pipes &amp; cisterns.</li>
+                        <li class="mb-1"><strong>Logical Reasoning:</strong> Syllogisms, blood relations, seating arrangements, and coding-decoding.</li>
+                        <li class="mb-1"><strong>Core Java Fundamentals:</strong> OOP concepts, method overloading vs overriding, memory model (Heap/Stack), and exception handling.</li>
+                        <li><strong>Milestone:</strong> Complete 2 full-length online aptitude mock assessments under timed conditions.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 3-4: Data Structures & Problem Solving -->
+            <div class="col-md-6">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 border-top border-4 border-info h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-info text-dark">Weeks 3 &amp; 4</span>
+                        <span class="small text-muted">Linear &amp; Non-Linear DSA</span>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-3">Data Structures &amp; Algorithmic Patterns</h5>
+                    <ul class="small text-secondary ps-3 mb-3">
+                        <li class="mb-1"><strong>Arrays &amp; Strings:</strong> Two pointers, sliding window, prefix sums, and kadane's algorithm.</li>
+                        <li class="mb-1"><strong>Linked Lists &amp; Stacks/Queues:</strong> Reversal, cycle detection, monotonic stacks, and parentheses validation.</li>
+                        <li class="mb-1"><strong>Trees &amp; BST:</strong> Inorder, preorder, postorder traversals, height of tree, and LCA.</li>
+                        <li><strong>Milestone:</strong> Solve at least 30 targeted medium problems on LeetCode/HackerRank.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 5-6: DBMS, SQL, Spring Boot & Full Stack -->
+            <div class="col-md-6">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 border-top border-4 border-success h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-success">Weeks 5 &amp; 6</span>
+                        <span class="small text-muted">Database &amp; Enterprise Stack</span>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-3">DBMS, Spring Boot &amp; System Architecture</h5>
+                    <ul class="small text-secondary ps-3 mb-3">
+                        <li class="mb-1"><strong>SQL &amp; DBMS:</strong> Normalization (1NF to BCNF), ACID transactions, B-Tree indexing, joins, and window functions.</li>
+                        <li class="mb-1"><strong>Spring Boot Architecture:</strong> Dependency injection, REST controllers, Spring Data JPA, Hibernate caching, and Spring Security.</li>
+                        <li class="mb-1"><strong>Academic Project Review:</strong> Document architecture, ER diagrams, data flow diagrams, and deploy code to GitHub with clear README.</li>
+                        <li><strong>Milestone:</strong> Conduct a simulated code review and architecture walkthrough of your MCA major/minor project.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Week 7-8: Mock Interviews & HR Polish -->
+            <div class="col-md-6">
+                <div class="portal-card p-4 bg-white shadow-sm border-0 border-top border-4 border-warning h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-warning text-dark">Weeks 7 &amp; 8</span>
+                        <span class="small text-muted">Final Polish &amp; Conversion</span>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-3">Mock Interviews, Resume &amp; HR Readiness</h5>
+                    <ul class="small text-secondary ps-3 mb-3">
+                        <li class="mb-1"><strong>Resume Optimization:</strong> Format 1-page clean ATS-compliant PDF resume highlighting quantifiable project achievements.</li>
+                        <li class="mb-1"><strong>Behavioral Prep:</strong> Craft STAR responses for leadership, conflicts, failure handling, and strengths/weaknesses.</li>
+                        <li class="mb-1"><strong>Mock Interviews:</strong> Conduct 2 technical peer mock interviews and 1 behavioral mock session with faculty/alumni.</li>
+                        <li><strong>Milestone:</strong> Upload polished resume to the Campus Placement Portal and apply to eligible campus postings.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action Banner -->
+        <div class="portal-card p-4 mt-4 bg-white shadow-sm border-0 text-center">
+            <h5 class="fw-bold text-dark mb-2">Ready to Put Your Preparation to the Test?</h5>
+            <p class="text-muted small mb-3">Browse current company drives, check minimum eligibility criteria, and submit your resume online.</p>
+            <a th:href="@{/student/jobs}" class="btn btn-primary px-4 fw-semibold">
+                <i class="bi bi-briefcase me-1"></i> Browse Live Campus Opportunities
+            </a>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

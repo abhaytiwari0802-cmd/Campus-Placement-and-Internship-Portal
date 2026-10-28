@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Edit Job Opening')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="portal-card p-4 p-md-5 bg-white shadow-sm border-0">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                        <div>
+                            <span class="badge bg-secondary-subtle text-secondary px-3 py-1 rounded-pill fw-semibold mb-2">Update Posting</span>
+                            <h3 class="fw-bold text-dark mb-0" th:text="${'Edit: ' + job.title}">Edit Job</h3>
+                        </div>
+                        <a th:href="@{/recruiter/jobs}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i> Back to Jobs
+                        </a>
+                    </div>
+
+                    <form th:action="@{/recruiter/jobs/{id}/edit(id=${job.id})}" th:object="${jobDto}" method="post">
+                        <input type="hidden" th:field="*{id}">
+                        <input type="hidden" th:field="*{companyId}">
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label small fw-semibold">Job Title / Role *</label>
+                                <input type="text" th:field="*{title}" class="form-control" required>
+                                <div class="invalid-feedback d-block" th:errors="*{title}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Hiring Organization</label>
+                                <input type="text" th:field="*{companyName}" class="form-control bg-light" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Employment Type *</label>
+                                <select th:field="*{jobType}" class="form-select" required>
+                                    <option th:each="type : ${T(com.portal.model.JobType).values()}"
+                                            th:value="${type}"
+                                            th:text="${type.displayName != null ? type.displayName : type.name()}">Full Time</option>
+                                </select>
+                                <div class="invalid-feedback d-block" th:errors="*{jobType}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Work Location *</label>
+                                <input type="text" th:field="*{location}" class="form-control" required>
+                                <div class="invalid-feedback d-block" th:errors="*{location}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Salary / Stipend *</label>
+                                <input type="text" th:field="*{salaryOrStipend}" class="form-control" required>
+                                <div class="invalid-feedback d-block" th:errors="*{salaryOrStipend}"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Minimum Eligibility CGPA</label>
+                                <input type="number" step="0.01" min="0" max="10" th:field="*{minCgpa}" class="form-control">
+                                <div class="invalid-feedback d-block" th:errors="*{minCgpa}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Total Vacancies *</label>
+                                <input type="number" min="1" th:field="*{openings}" class="form-control" required>
+                                <div class="invalid-feedback d-block" th:errors="*{openings}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Application Deadline *</label>
+                                <input type="date" th:field="*{deadline}" class="form-control" required>
+                                <div class="invalid-feedback d-block" th:errors="*{deadline}"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label small fw-semibold">Eligible Degree Programs / Branches</label>
+                                <input type="text" th:field="*{allowedBranches}" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Listing Status</label>
+                                <select th:field="*{status}" class="form-select">
+                                    <option th:value="${T(com.portal.model.JobStatus).ACTIVE}">Active (Accepting Applications)</option>
+                                    <option th:value="${T(com.portal.model.JobStatus).CLOSED}">Closed (No Longer Accepting)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold">Required Skills &amp; Competencies</label>
+                            <input type="text" th:field="*{requiredSkills}" class="form-control">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label small fw-semibold">Comprehensive Job Description *</label>
+                            <textarea th:field="*{description}" class="form-control" rows="6" required></textarea>
+                            <div class="invalid-feedback d-block" th:errors="*{description}"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a th:href="@{/recruiter/jobs}" class="btn btn-outline-secondary px-4">Cancel</a>
+                            <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                                <i class="bi bi-save me-1"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

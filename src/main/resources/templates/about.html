@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('About Placement Cell')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-5">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6">
+                <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-2 rounded-pill mb-3">Academic Excellence &amp; Industry Alignment</span>
+                <h1 class="fw-bold mb-4">About Our Training &amp; Placement Cell</h1>
+                <p class="lead text-secondary">
+                    The Training and Placement Office (TPO) acts as a pivotal bridge connecting aspiring postgraduate and undergraduate engineers with leading technology innovators across the globe.
+                </p>
+                <p class="text-secondary">
+                    Our platform automates the end-to-end placement journey: from company registration and credential verification, through eligibility-screened job applications, resume management, interview coordination, and administrative reporting.
+                </p>
+                <div class="row g-3 mt-2">
+                    <div class="col-sm-6">
+                        <div class="p-3 border rounded bg-white shadow-sm">
+                            <h4 class="fw-bold text-primary mb-1">100%</h4>
+                            <p class="small text-muted mb-0">Placement Assistance for MCA candidates</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3 border rounded bg-white shadow-sm">
+                            <h4 class="fw-bold text-success mb-1">50+</h4>
+                            <p class="small text-muted mb-0">Active Corporate Hiring Partners</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="portal-card p-4 shadow-sm bg-white border">
+                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-bullseye me-2"></i>Our Placement Objectives</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                            <div>
+                                <strong class="d-block text-dark">Strict Role-Based Integrity</strong>
+                                <small class="text-muted">Separate secure environments for Students, Recruiters, and Placement Administrators.</small>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                            <div>
+                                <strong class="d-block text-dark">Automated Eligibility Screening</strong>
+                                <small class="text-muted">Real-time validation against minimum CGPA thresholds and allowable academic disciplines.</small>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start mb-3">
+                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                            <div>
+                                <strong class="d-block text-dark">Safe Resume Infrastructure</strong>
+                                <small class="text-muted">Protected file uploads stored outside web roots with strict ownership authorization on downloads.</small>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start">
+                            <i class="bi bi-check-circle-fill text-success fs-5 me-3"></i>
+                            <div>
+                                <strong class="d-block text-dark">Enterprise Analytics</strong>
+                                <small class="text-muted">Direct SQL reporting with Spring JdbcTemplate for department-wise placement statistics.</small>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

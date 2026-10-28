@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Data Structures &amp; Algorithms')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small">
+                        <li class="breadcrumb-item"><a th:href="@{/career-prep}">Career Prep</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">DSA Guide</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold text-dark mb-1">Data Structures &amp; Algorithms (DSA)</h2>
+                <p class="text-muted mb-0 small">Crucial algorithmic patterns, time-space complexities, and problem-solving strategies for coding assessments</p>
+            </div>
+            <div>
+                <a th:href="@{/career-prep}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Career Hub
+                </a>
+            </div>
+        </div>
+
+        <!-- Section 1: Complexity Cheat Sheet -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-speedometer2 text-info me-2"></i>Time &amp; Space Complexity Cheat Sheet</h4>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered text-center align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="text-start">Data Structure / Algorithm</th>
+                            <th>Access (Average)</th>
+                            <th>Search (Average)</th>
+                            <th>Insertion</th>
+                            <th>Deletion</th>
+                            <th>Space Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody class="small font-monospace">
+                        <tr>
+                            <td class="text-start font-sans-serif fw-semibold">Array / Dynamic Array</td>
+                            <td class="text-success">O(1)</td>
+                            <td class="text-warning">O(n)</td>
+                            <td class="text-warning">O(n)</td>
+                            <td class="text-warning">O(n)</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start font-sans-serif fw-semibold">Singly Linked List</td>
+                            <td class="text-warning">O(n)</td>
+                            <td class="text-warning">O(n)</td>
+                            <td class="text-success">O(1) [head]</td>
+                            <td class="text-success">O(1) [head]</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start font-sans-serif fw-semibold">Binary Search Tree (Balanced)</td>
+                            <td class="text-primary">O(log n)</td>
+                            <td class="text-primary">O(log n)</td>
+                            <td class="text-primary">O(log n)</td>
+                            <td class="text-primary">O(log n)</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start font-sans-serif fw-semibold">Hash Table / HashMap</td>
+                            <td class="text-muted">-</td>
+                            <td class="text-success">O(1)</td>
+                            <td class="text-success">O(1)</td>
+                            <td class="text-success">O(1)</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start font-sans-serif fw-semibold">Binary Heap / PriorityQueue</td>
+                            <td class="text-muted">-</td>
+                            <td class="text-warning">O(n)</td>
+                            <td class="text-primary">O(log n)</td>
+                            <td class="text-primary">O(log n)</td>
+                            <td>O(n)</td>
+                        </tr>
+                        <tr>
+                            <td class="text-start font-sans-serif fw-semibold">QuickSort / MergeSort</td>
+                            <td class="text-muted">-</td>
+                            <td class="text-muted">-</td>
+                            <td class="text-primary">O(n log n)</td>
+                            <td class="text-primary">O(n log n)</td>
+                            <td>O(log n) / O(n)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 2: Essential Coding Patterns -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-puzzle-fill text-warning me-2"></i>Top Algorithmic Interview Patterns</h4>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-dark mb-2">1. Two Pointers &amp; Sliding Window</h6>
+                        <p class="small text-secondary mb-2">
+                            Used for linear sequences to reduce brute-force <code>O(n&sup2;)</code> nested loops to <code>O(n)</code> time complexity.
+                        </p>
+                        <div class="bg-dark text-white p-2 rounded font-monospace" style="font-size: 0.8rem;">
+int left = 0, right = arr.length - 1;<br>
+while (left &lt; right) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;int sum = arr[left] + arr[right];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (sum == target) return new int[]{left, right};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (sum &lt; target) left++;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;else right--;<br>
+}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-dark mb-2">2. Breadth-First Search (BFS) vs DFS</h6>
+                        <p class="small text-secondary mb-2">
+                            BFS uses a <code>Queue</code> for level-order traversal and shortest path in unweighted graphs. DFS uses a <code>Stack</code> or recursion for connected components and topological sort.
+                        </p>
+                        <div class="bg-dark text-white p-2 rounded font-monospace" style="font-size: 0.8rem;">
+Queue&lt;Node&gt; q = new LinkedList&lt;&gt;();<br>
+q.offer(root);<br>
+while (!q.isEmpty()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Node curr = q.poll();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (curr.left != null) q.offer(curr.left);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (curr.right != null) q.offer(curr.right);<br>
+}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-dark mb-2">3. Dynamic Programming (DP) Core Principle</h6>
+                        <p class="small text-secondary mb-2">
+                            Breaking complex problems into overlapping subproblems with optimal substructure. Memoization (top-down) or Tabulation (bottom-up).
+                        </p>
+                        <ul class="small text-secondary ps-3 mb-0">
+                            <li>0/1 Knapsack Problem</li>
+                            <li>Longest Common Subsequence (LCS)</li>
+                            <li>Coin Change Problem</li>
+                            <li>Climbing Stairs / Fibonacci sequence</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-dark mb-2">4. Top Coding Problems Checklist</h6>
+                        <ul class="small text-secondary ps-3 mb-0">
+                            <li>Reverse a Linked List (Iterative &amp; Recursive)</li>
+                            <li>Detect Cycle in Linked List (Floyd's Tortoise and Hare)</li>
+                            <li>Check if Binary Tree is Valid BST</li>
+                            <li>Lowest Common Ancestor (LCA) in Binary Tree</li>
+                            <li>Trapping Rain Water (Two pointers / Monotonic Stack)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('HR &amp; Behavioral Interview Guide')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small">
+                        <li class="breadcrumb-item"><a th:href="@{/career-prep}">Career Prep</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">HR Interview Guide</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold text-dark mb-1">HR &amp; Behavioral Interview Guide</h2>
+                <p class="text-muted mb-0 small">Ace final managerial and human resource interviews with confidence, clarity, and structured responses</p>
+            </div>
+            <div>
+                <a th:href="@{/career-prep}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Career Hub
+                </a>
+            </div>
+        </div>
+
+        <!-- Section 1: The STAR Framework -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4 border-start border-4 border-primary">
+            <h4 class="fw-bold text-dark mb-2"><i class="bi bi-stars text-warning me-2"></i>The STAR Method for Behavioral Questions</h4>
+            <p class="text-muted small mb-3">
+                Top tier recruiters from Google, Microsoft, Amazon, and TCS specifically look for structured behavioral stories using STAR:
+            </p>
+            <div class="row g-3 text-center">
+                <div class="col-sm-6 col-md-3">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <span class="badge bg-primary fs-6 mb-2">S</span>
+                        <h6 class="fw-bold text-dark mb-1">Situation</h6>
+                        <p class="small text-muted mb-0">Describe the specific academic context, project bottleneck, or team challenge you faced.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <span class="badge bg-info text-dark fs-6 mb-2">T</span>
+                        <h6 class="fw-bold text-dark mb-1">Task</h6>
+                        <p class="small text-muted mb-0">Explain your exact role, personal responsibility, and target deliverable.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <span class="badge bg-warning text-dark fs-6 mb-2">A</span>
+                        <h6 class="fw-bold text-dark mb-1">Action</h6>
+                        <p class="small text-muted mb-0">Detail the specific technical and interpersonal steps you took to address the challenge.</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <span class="badge bg-success fs-6 mb-2">R</span>
+                        <h6 class="fw-bold text-dark mb-1">Result</h6>
+                        <p class="small text-muted mb-0">Quantify outcomes: performance gain, delivered deadline, or valuable key takeaway.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Standard Questions & Sample Answers -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-chat-quote-fill text-success me-2"></i>High-Frequency HR Questions &amp; Battle-Tested Answers</h4>
+
+            <div class="accordion" id="hrAccordion">
+                <!-- Q1 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="hrHead1">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#hrCollapse1" aria-expanded="false" aria-controls="hrCollapse1">
+                            1. "Tell me about yourself." (The 90-Second Professional Elevator Pitch)
+                        </button>
+                    </h2>
+                    <div id="hrCollapse1" class="accordion-collapse collapse" aria-labelledby="hrHead1" data-bs-parent="#hrAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p><strong>Structure:</strong> Past (Academic foundations) &rarr; Present (Skills, major projects, certifications) &rarr; Future (Why this company &amp; role align with your ambitions).</p>
+                            <div class="p-3 bg-white rounded border fst-italic">
+                                "Good morning/afternoon. I am an MCA final year student specializing in computer applications and backend systems. Throughout my coursework, I developed deep foundations in Java, Spring Boot, and relational database systems. Recently, I architected a full-stack campus placement portal with real-time interview scheduling, role-based authorization, and automated reporting using Spring Data JPA and JdbcTemplate. Beyond code, I have been an active technical mentor and problem solver on competitive programming platforms. Having followed your company's innovative work in enterprise cloud platforms, I am very excited about the opportunity to contribute to your engineering team as a Software Engineer."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="hrHead2">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#hrCollapse2" aria-expanded="false" aria-controls="hrCollapse2">
+                            2. "What are your greatest strengths and weaknesses?"
+                        </button>
+                    </h2>
+                    <div id="hrCollapse2" class="accordion-collapse collapse" aria-labelledby="hrHead2" data-bs-parent="#hrAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p><strong>Strength:</strong> Focus on resilience, systematic debugging, or collaborative teamwork with a concrete example.</p>
+                            <p><strong>Weakness:</strong> Never say "I have no weaknesses" or fake weaknesses like "I am too perfectionist". Pick a genuine technical or workflow area and explain how you are actively addressing it.</p>
+                            <div class="p-3 bg-white rounded border fst-italic">
+                                "My greatest strength is my ability to break down complex system bottlenecks methodically without panic. For instance, when diagnosing database performance slowdowns in our academic project, I utilized SQL explain plans and index tuning to reduce query latency by 60%.<br><br>
+                                An area I have been actively improving is public technical presentations. Early on, I found presenting architecture decisions to large audiences daunting. To overcome this, I took the initiative to present weekly code review summaries during university group projects, which has significantly built my communication clarity."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="hrHead3">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#hrCollapse3" aria-expanded="false" aria-controls="hrCollapse3">
+                            3. "Why should we hire you over other candidates?"
+                        </button>
+                    </h2>
+                    <div id="hrCollapse3" class="accordion-collapse collapse" aria-labelledby="hrHead3" data-bs-parent="#hrAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p>Highlight your blend of solid academic theory, hands-on full-stack development experience, and eagerness to adapt rapidly to team conventions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="accordion-item border rounded">
+                    <h2 class="accordion-header" id="hrHead4">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#hrCollapse4" aria-expanded="false" aria-controls="hrCollapse4">
+                            4. "Do you have any questions for us?"
+                        </button>
+                    </h2>
+                    <div id="hrCollapse4" class="accordion-collapse collapse" aria-labelledby="hrHead4" data-bs-parent="#hrAccordion">
+                        <div class="accordion-body bg-light small text-secondary">
+                            <p>Never say "No". Ask thoughtful, role-specific questions:</p>
+                            <ul class="mb-0">
+                                <li>"What does the initial onboarding and mentorship process look like for fresh graduate engineers in this team?"</li>
+                                <li>"What are the most challenging technical problems the team is currently tackling over the coming quarters?"</li>
+                                <li>"Which technology stack or development methodology (Agile/Scrum/CI-CD) does this specific engineering squad utilize?"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Group Discussion (GD) Etiquette -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-megaphone-fill text-danger me-2"></i>Group Discussion (GD) Strategy</h4>
+            <div class="row g-3 small text-secondary">
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <strong class="text-dark d-block mb-1">Initiating or Summarizing</strong>
+                        Initiating earns attention only if you define the topic clearly. Otherwise, contributing strong logical counterpoints or offering an objective summary at the conclusion creates a lasting positive impression.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <strong class="text-dark d-block mb-1">Active Listening &amp; Moderation</strong>
+                        Never interrupt aggressively. Say: <em>"I appreciate your point, however, considering the economic implications..."</em>. Invite silent members to speak to display leadership.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <strong class="text-dark d-block mb-1">Facts, Data &amp; Clarity</strong>
+                        Support arguments with actual statistics, recent industry regulations, or technological developments rather than emotional opinions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

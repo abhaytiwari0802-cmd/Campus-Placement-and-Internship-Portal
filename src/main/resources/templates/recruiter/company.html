@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Company Profile & Verification')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Status Banner -->
+                <div th:if="${company != null}" class="portal-card p-4 mb-4 bg-white border-start border-4"
+                     th:classappend="${company.approvalStatus.name() == 'APPROVED' ? 'border-success' : (company.approvalStatus.name() == 'PENDING' ? 'border-warning' : 'border-danger')}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-bold mb-1">Company Accreditation Status</h5>
+                            <p class="small text-muted mb-0">University administration reviews all employer profiles for campus integrity</p>
+                        </div>
+                        <span th:if="${company.approvalStatus.name() == 'APPROVED'}" class="badge bg-success fs-6 px-3 py-2">
+                            <i class="bi bi-patch-check-fill me-1"></i> Verified &amp; Approved
+                        </span>
+                        <span th:if="${company.approvalStatus.name() == 'PENDING'}" class="badge bg-warning text-dark fs-6 px-3 py-2">
+                            <i class="bi bi-hourglass-split me-1"></i> Pending Admin Verification
+                        </span>
+                        <span th:if="${company.approvalStatus.name() == 'REJECTED'}" class="badge bg-danger fs-6 px-3 py-2">
+                            <i class="bi bi-x-circle me-1"></i> Accreditation Rejected
+                        </span>
+                    </div>
+                </div>
+
+                <div class="portal-card p-4 p-md-5 bg-white">
+                    <h3 class="fw-bold text-dark mb-4 border-bottom pb-2">Employer Profile Information</h3>
+
+                    <form th:action="@{/recruiter/company/update}" th:object="${companyDto}" method="post">
+                        <input type="hidden" th:field="*{id}">
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Company Name *</label>
+                                <input type="text" th:field="*{name}" class="form-control" required>
+                                <div class="invalid-feedback d-block" th:errors="*{name}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Industry / Domain</label>
+                                <input type="text" th:field="*{industry}" class="form-control" placeholder="e.g. IT, FinTech, E-Commerce">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Corporate Website</label>
+                                <input type="url" th:field="*{website}" class="form-control" placeholder="https://company.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Headquarters / Location</label>
+                                <input type="text" th:field="*{location}" class="form-control" placeholder="City, State / Remote">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Logo Image URL</label>
+                                <input type="url" th:field="*{logoUrl}" class="form-control" placeholder="https://logo.clearbit.com/company.com">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Company Description &amp; Background</label>
+                                <textarea th:field="*{description}" class="form-control" rows="4" placeholder="Briefly describe what your organization does..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-portal-primary px-4 fw-semibold">
+                                <i class="bi bi-save me-1"></i> Update Company Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

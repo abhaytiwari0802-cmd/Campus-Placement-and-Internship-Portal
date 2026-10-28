@@ -1,0 +1,300 @@
+/* ===================================================================
+   CAMPUS PLACEMENT & INTERNSHIP PORTAL - DESIGN SYSTEM
+   Professional University Enterprise Styling
+   =================================================================== */
+
+:root {
+    --primary-color: #1e3a8a;       /* Deep Navy */
+    --primary-hover: #172554;
+    --primary-light: #eff6ff;
+    --secondary-color: #0d9488;     /* Modern Teal */
+    --accent-color: #4f46e5;        /* Indigo */
+    --dark-bg: #0f172a;             /* Slate 900 */
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-muted: #64748b;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.10);
+    --transition-base: all 0.25s ease-in-out;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    color: var(--text-primary);
+    background-color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+/* Navbar */
+.navbar-custom {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e1b4b 100%);
+    box-shadow: var(--shadow-md);
+    padding: 0.8rem 1rem;
+}
+
+.navbar-custom .navbar-brand {
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.navbar-custom .nav-link {
+    color: #e2e8f0 !important;
+    font-weight: 500;
+    padding: 0.5rem 0.9rem !important;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-base);
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.navbar-custom .dropdown-menu {
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 60%, #1e1b4b 100%);
+    color: #ffffff;
+    padding: 4.5rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+}
+
+/* Card Styling */
+.portal-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-base);
+}
+
+.portal-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.portal-card-header {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.1rem 1.4rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.portal-card-body {
+    padding: 1.4rem;
+}
+
+/* Stat Cards */
+.stat-card {
+    border-radius: var(--radius-md);
+    padding: 1.4rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-base);
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card.bg-primary-grad {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+.stat-card.bg-success-grad {
+    background: linear-gradient(135deg, #059669, #047857);
+}
+
+.stat-card.bg-warning-grad {
+    background: linear-gradient(135deg, #d97706, #b45309);
+}
+
+.stat-card.bg-info-grad {
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+}
+
+.stat-card.bg-purple-grad {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+}
+
+.stat-card .stat-number {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.stat-card .stat-label {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-top: 0.3rem;
+}
+
+.stat-card .stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.85;
+}
+
+/* Buttons */
+.btn-portal-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    padding: 0.55rem 1.25rem;
+    transition: var(--transition-base);
+}
+
+.btn-portal-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    color: #ffffff;
+}
+
+/* Status Badges */
+.badge-status {
+    padding: 0.4em 0.75em;
+    font-weight: 600;
+    border-radius: 50rem;
+    font-size: 0.82rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/* Tables */
+.portal-table {
+    margin-bottom: 0;
+}
+
+.portal-table thead th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--border-color);
+    padding: 0.9rem 1rem;
+}
+
+.portal-table tbody td {
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Application Status Timeline */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+    list-style: none;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background: #cbd5e1;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -2rem;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.timeline-content {
+    background: #f8fafc;
+    border-radius: var(--radius-sm);
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--border-color);
+}
+
+/* Footer */
+.portal-footer {
+    background-color: var(--dark-bg);
+    color: #94a3b8;
+    padding: 2.5rem 0 1.5rem;
+    margin-top: 3.5rem;
+    border-top: 1px solid #1e293b;
+}
+
+.portal-footer a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: var(--transition-base);
+}
+
+.portal-footer a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* Profile Progress Bar */
+.completion-badge {
+    font-weight: 700;
+    font-size: 0.9rem;
+}

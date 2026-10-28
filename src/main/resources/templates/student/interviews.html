@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Scheduled Interviews')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <!-- Upcoming Interviews Section -->
+        <div class="portal-card bg-white p-4 mb-4">
+            <h3 class="fw-bold text-dark mb-1"><i class="bi bi-calendar2-event me-2 text-primary"></i>Upcoming Placement Interviews</h3>
+            <p class="small text-muted mb-4 border-bottom pb-2">Active interview rounds scheduled with corporate evaluation panels</p>
+
+            <div class="row g-4" th:if="${upcomingInterviews != null and !upcomingInterviews.empty}">
+                <div class="col-md-6" th:each="inv : ${upcomingInterviews}">
+                    <div class="p-4 rounded border bg-light h-100 border-start border-4 border-primary">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="fw-bold text-dark mb-0" th:text="${inv.application.job.title}">Job Title</h5>
+                            <span class="badge bg-primary" th:text="${inv.interviewMode.label}">Online / Virtual</span>
+                        </div>
+                        <h6 class="text-secondary fw-semibold mb-3" th:text="${inv.application.job.company.name}">Company Name</h6>
+
+                        <div class="small mb-3">
+                            <div class="mb-1"><i class="bi bi-calendar3 me-2 text-primary"></i><strong>Date:</strong> <span th:text="${inv.interviewDate}">2026-10-27</span></div>
+                            <div class="mb-1"><i class="bi bi-clock me-2 text-primary"></i><strong>Time:</strong> <span th:text="${inv.interviewTime}">11:00 AM</span></div>
+                            <div class="mb-1" th:if="${inv.interviewerName}"><i class="bi bi-person me-2 text-primary"></i><strong>Interviewer:</strong> <span th:text="${inv.interviewerName}">Lead Architect</span></div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded border mb-3 small">
+                            <strong class="d-block mb-1 text-dark">Meeting Link / Campus Venue:</strong>
+                            <a th:href="${inv.locationOrLink}" target="_blank" class="text-break fw-semibold" th:text="${inv.locationOrLink}">https://...</a>
+                        </div>
+
+                        <div th:if="${inv.instructions}" class="small text-muted p-2 bg-warning-subtle rounded border border-warning-subtle">
+                            <strong><i class="bi bi-info-circle me-1"></i> Special Instructions:</strong>
+                            <span th:text="${inv.instructions}">Keep video on and code editor prepared.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center py-4" th:if="${upcomingInterviews == null or upcomingInterviews.empty}">
+                <p class="text-muted mb-0">No active interviews scheduled right now. Check back as recruiters review applications.</p>
+            </div>
+        </div>
+
+        <!-- All Past Interviews Table -->
+        <div class="portal-card bg-white p-4">
+            <h5 class="fw-bold text-dark mb-3">All Recorded Interview History</h5>
+            <div class="table-responsive" th:if="${allInterviews != null and !allInterviews.empty}">
+                <table class="table portal-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Job &amp; Company</th>
+                            <th>Mode</th>
+                            <th>Date &amp; Time</th>
+                            <th>Interviewer</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="inv : ${allInterviews}">
+                            <td>
+                                <strong class="d-block text-dark" th:text="${inv.application.job.title}">Job Title</strong>
+                                <small class="text-muted" th:text="${inv.application.job.company.name}">Company Name</small>
+                            </td>
+                            <td th:text="${inv.interviewMode.label}">Online</td>
+                            <td>
+                                <span th:text="${inv.interviewDate}">2026-10-25</span> at <span th:text="${inv.interviewTime}">11:00</span>
+                            </td>
+                            <td th:text="${inv.interviewerName != null ? inv.interviewerName : 'Panel'}">Panel</td>
+                            <td>
+                                <span th:class="'badge bg-' + ${inv.status.badgeColor}" th:text="${inv.status.label}">Scheduled</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

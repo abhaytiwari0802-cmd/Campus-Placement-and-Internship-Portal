@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title != null ? title + ' | Campus Placement Portal' : 'Campus Placement and Internship Portal'}">Campus Placement Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom Portal CSS -->
+    <link rel="stylesheet" th:href="@{/css/portal.css}">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header th:fragment="navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+            <div class="container-fluid px-lg-4">
+                <a class="navbar-brand" th:href="@{/}">
+                    <i class="bi bi-mortarboard-fill text-warning"></i>
+                    <span>Campus Placement Portal</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#portalNavbar"
+                        aria-controls="portalNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="portalNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-link-item"><a class="nav-link" th:href="@{/}"><i class="bi bi-house-door me-1"></i> Home</a></li>
+                        <li class="nav-link-item"><a class="nav-link" th:href="@{/about}">About Placement Cell</a></li>
+                        <li class="nav-link-item"><a class="nav-link" th:href="@{/career-prep}"><i class="bi bi-journal-code me-1"></i> Career Prep</a></li>
+                        <li class="nav-link-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
+
+                        <!-- Student Links -->
+                        <li class="nav-link-item" sec:authorize="hasRole('STUDENT')">
+                            <a class="nav-link" th:href="@{/student/dashboard}"><i class="bi bi-speedometer2 me-1"></i> Student Dashboard</a>
+                        </li>
+                        <li class="nav-link-item" sec:authorize="hasRole('STUDENT')">
+                            <a class="nav-link" th:href="@{/student/jobs}"><i class="bi bi-briefcase me-1"></i> Browse Opportunities</a>
+                        </li>
+                        <li class="nav-link-item" sec:authorize="hasRole('STUDENT')">
+                            <a class="nav-link" th:href="@{/student/applications}"><i class="bi bi-file-earmark-check me-1"></i> Applications</a>
+                        </li>
+                        <li class="nav-link-item" sec:authorize="hasRole('STUDENT')">
+                            <a class="nav-link" th:href="@{/student/interviews}"><i class="bi bi-calendar-event me-1"></i> Interviews</a>
+                        </li>
+
+                        <!-- Recruiter Links -->
+                        <li class="nav-link-item" sec:authorize="hasRole('RECRUITER')">
+                            <a class="nav-link" th:href="@{/recruiter/dashboard}"><i class="bi bi-speedometer2 me-1"></i> Recruiter Dashboard</a>
+                        </li>
+                        <li class="nav-link-item" sec:authorize="hasRole('RECRUITER')">
+                            <a class="nav-link" th:href="@{/recruiter/jobs/create}"><i class="bi bi-plus-circle me-1"></i> Post Job</a>
+                        </li>
+                        <li class="nav-link-item" sec:authorize="hasRole('RECRUITER')">
+                            <a class="nav-link" th:href="@{/recruiter/jobs}"><i class="bi bi-card-list me-1"></i> Manage Jobs</a>
+                        </li>
+                        <li class="nav-link-item" sec:authorize="hasRole('RECRUITER')">
+                            <a class="nav-link" th:href="@{/recruiter/interviews}"><i class="bi bi-calendar3 me-1"></i> Interviews</a>
+                        </li>
+
+                        <!-- Admin Links -->
+                        <li class="nav-link-item" sec:authorize="hasRole('ADMIN')">
+                            <a class="nav-link" th:href="@{/admin/dashboard}"><i class="bi bi-shield-lock me-1"></i> Admin Panel</a>
+                        </li>
+                        <li class="nav-link-item" sec:authorize="hasRole('ADMIN')">
+                            <a class="nav-link" th:href="@{/admin/companies}"><i class="bi bi-building-check me-1"></i> Companies</a>
+                        </li>
+                        <li class="nav-link-item" sec:authorize="hasRole('ADMIN')">
+                            <a class="nav-link" th:href="@{/admin/reports}"><i class="bi bi-bar-chart-line me-1"></i> Reports</a>
+                        </li>
+                    </ul>
+
+                    <!-- Right-side Auth buttons -->
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <!-- Guest State -->
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="btn btn-outline-light btn-sm me-2 px-3" th:href="@{/login}"><i class="bi bi-box-arrow-in-right me-1"></i> Sign In</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="btn btn-warning btn-sm px-3 fw-semibold text-dark" th:href="@{/register}"><i class="bi bi-person-plus me-1"></i> Register</a>
+                        </li>
+
+                        <!-- Authenticated User Menu -->
+                        <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="badge bg-light text-dark rounded-circle p-2"><i class="bi bi-person-fill"></i></span>
+                                <span sec:authentication="name" class="fw-semibold">User</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                                <!-- Student Menu items -->
+                                <li sec:authorize="hasRole('STUDENT')">
+                                    <a class="dropdown-item" th:href="@{/student/profile}"><i class="bi bi-person-lines-fill me-2 text-primary"></i> My Profile & Resume</a>
+                                </li>
+                                <li sec:authorize="hasRole('STUDENT')">
+                                    <a class="dropdown-item" th:href="@{/student/saved-jobs}"><i class="bi bi-bookmark-heart me-2 text-danger"></i> Saved Jobs</a>
+                                </li>
+                                <li sec:authorize="hasRole('STUDENT')">
+                                    <a class="dropdown-item" th:href="@{/student/notifications}"><i class="bi bi-bell me-2 text-warning"></i> Notifications</a>
+                                </li>
+
+                                <!-- Recruiter Menu items -->
+                                <li sec:authorize="hasRole('RECRUITER')">
+                                    <a class="dropdown-item" th:href="@{/recruiter/profile}"><i class="bi bi-person-badge me-2 text-primary"></i> Recruiter Profile</a>
+                                </li>
+                                <li sec:authorize="hasRole('RECRUITER')">
+                                    <a class="dropdown-item" th:href="@{/recruiter/company}"><i class="bi bi-buildings me-2 text-success"></i> Company Profile</a>
+                                </li>
+
+                                <!-- Admin Menu items -->
+                                <li sec:authorize="hasRole('ADMIN')">
+                                    <a class="dropdown-item" th:href="@{/admin/users}"><i class="bi bi-people me-2 text-primary"></i> User Management</a>
+                                </li>
+                                <li sec:authorize="hasRole('ADMIN')">
+                                    <a class="dropdown-item" th:href="@{/admin/announcements}"><i class="bi bi-megaphone me-2 text-info"></i> Broadcast Announcements</a>
+                                </li>
+                                <li sec:authorize="hasRole('ADMIN')">
+                                    <a class="dropdown-item" th:href="@{/admin/audit-logs}"><i class="bi bi-journal-text me-2 text-secondary"></i> Audit Logs</a>
+                                </li>
+                                <li sec:authorize="hasRole('ADMIN')">
+                                    <a class="dropdown-item" th:href="@{/admin/health}"><i class="bi bi-activity me-2 text-danger"></i> System Diagnostics</a>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form th:action="@{/logout}" method="post" class="d-inline">
+                                        <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i> Log Out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ALERTS FRAGMENT -->
+    <div th:fragment="alerts" class="container mt-3">
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+            <div th:text="${successMessage}">Operation successful!</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show d-flex align-items-center" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+            <div th:text="${errorMessage}">An error occurred!</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <!-- FOOTER FRAGMENT -->
+    <footer th:fragment="footer" class="portal-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="text-white fw-bold mb-3"><i class="bi bi-mortarboard-fill text-warning me-2"></i>Campus Placement Cell</h5>
+                    <p class="small text-secondary">A unified enterprise recruitment platform connecting ambitious students, top global hiring partners, and academic placement leadership.</p>
+                    <p class="small text-secondary mb-0">Developed for MCA Master's Minor Project &amp; University Recruitment Drives.</p>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a th:href="@{/}">Home</a></li>
+                        <li class="mb-2"><a th:href="@{/about}">About Us</a></li>
+                        <li class="mb-2"><a th:href="@{/career-prep}">Career Resources</a></li>
+                        <li class="mb-2"><a th:href="@{/contact}">Help &amp; Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Placement Modules</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2"><a th:href="@{/career-prep/aptitude}">Aptitude Reasoning</a></li>
+                        <li class="mb-2"><a th:href="@{/career-prep/technical-java}">Java &amp; Spring Boot</a></li>
+                        <li class="mb-2"><a th:href="@{/career-prep/technical-dbms}">SQL &amp; DBMS</a></li>
+                        <li class="mb-2"><a th:href="@{/career-prep/dsa}">Data Structures (DSA)</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">TPO Helpline</h6>
+                    <p class="small text-secondary mb-1"><i class="bi bi-geo-alt-fill me-2 text-warning"></i>Training &amp; Placement Cell, Block-IV</p>
+                    <p class="small text-secondary mb-1"><i class="bi bi-envelope-fill me-2 text-warning"></i>tpo-office@campus.edu</p>
+                    <p class="small text-secondary"><i class="bi bi-telephone-fill me-2 text-warning"></i>+91 (011) 2659-7135</p>
+                </div>
+            </div>
+            <hr class="my-4 border-secondary opacity-25">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center small text-secondary">
+                <span>&copy; 2026 Campus Placement and Internship Portal. All rights reserved.</span>
+                <span>MCA Master's Project Submission Edition</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS FRAGMENT -->
+    <div th:fragment="scripts">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script th:src="@{/js/portal.js}"></script>
+    </div>
+</body>
+</html>

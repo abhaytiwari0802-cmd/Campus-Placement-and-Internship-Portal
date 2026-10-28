@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Job Applicants')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <!-- Job Header Banner -->
+        <div class="portal-card p-4 mb-4 bg-white border-start border-4 border-primary shadow-sm">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div>
+                    <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-1 rounded-pill mb-2">Applicants Overview</span>
+                    <h2 class="fw-bold mb-1" th:text="${job.title}">Software Development Engineer</h2>
+                    <p class="text-muted mb-0 small">
+                        <strong>Organization:</strong> <span th:text="${job.company.name}">Google India</span> |
+                        <strong>Type:</strong> <span th:text="${job.jobType.displayName != null ? job.jobType.displayName : job.jobType}">Full Time</span> |
+                        <strong>Location:</strong> <span th:text="${job.location}">Bangalore</span> |
+                        <strong>Openings:</strong> <span th:text="${job.openings}">5</span> |
+                        <strong>Total Candidates:</strong> <span class="badge bg-primary" th:text="${applicants != null ? applicants.size() : 0}">3</span>
+                    </p>
+                </div>
+                <div>
+                    <a th:href="@{/recruiter/jobs}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Jobs
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="portal-card p-4 bg-white shadow-sm border-0">
+            <div th:if="${applicants != null and !applicants.isEmpty()}" class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Candidate Details</th>
+                            <th>Academic Profile</th>
+                            <th>CGPA</th>
+                            <th>Applied On</th>
+                            <th>Current Status</th>
+                            <th>Resume</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="app : ${applicants}">
+                            <td>
+                                <div class="fw-bold text-dark" th:text="${app.student != null ? app.student.fullName : 'Applicant'}">Rahul Sharma</div>
+                                <div class="small text-muted" th:text="${app.student != null ? app.student.email : ''}">rahul@campus.edu</div>
+                                <div class="small text-secondary" th:text="${app.student != null ? app.student.phone : ''}">+91 9123456789</div>
+                            </td>
+                            <td>
+                                <div class="small fw-semibold" th:text="${app.student != null and app.student.studentProfile != null ? app.student.studentProfile.course + ' (' + app.student.studentProfile.branch + ')' : 'N/A'}">MCA - CS</div>
+                                <div class="small text-muted" th:text="${'Roll: ' + (app.student != null and app.student.studentProfile != null ? app.student.studentProfile.enrollmentNumber : 'N/A')}">Roll: MCA/2024/001</div>
+                            </td>
+                            <td>
+                                <span class="badge bg-success-subtle text-success fw-bold fs-6" th:text="${app.student != null and app.student.studentProfile != null ? app.student.studentProfile.cgpa : 'N/A'}">8.85</span>
+                            </td>
+                            <td class="small" th:text="${#temporals.format(app.createdAt, 'dd MMM yyyy, hh:mm a')}">20 Oct 2026</td>
+                            <td>
+                                <span th:if="${app.status.name() == 'APPLIED'}" class="badge bg-secondary">Applied</span>
+                                <span th:if="${app.status.name() == 'UNDER_REVIEW'}" class="badge bg-info text-dark">Under Review</span>
+                                <span th:if="${app.status.name() == 'SHORTLISTED'}" class="badge bg-primary">Shortlisted</span>
+                                <span th:if="${app.status.name() == 'INTERVIEW_SCHEDULED'}" class="badge bg-warning text-dark">Interview Scheduled</span>
+                                <span th:if="${app.status.name() == 'SELECTED'}" class="badge bg-success">Selected / Offered</span>
+                                <span th:if="${app.status.name() == 'REJECTED'}" class="badge bg-danger">Not Selected</span>
+                                <span th:if="${app.status.name() == 'WITHDRAWN'}" class="badge bg-light text-muted border">Withdrawn</span>
+                            </td>
+                            <td>
+                                <a th:if="${app.resume != null}" th:href="@{/recruiter/resumes/{id}/download(id=${app.resume.id})}" class="btn btn-sm btn-outline-danger" title="Download Candidate Resume">
+                                    <i class="bi bi-file-earmark-pdf me-1"></i> PDF
+                                </a>
+                                <span th:if="${app.resume == null}" class="text-muted small">No File</span>
+                            </td>
+                            <td class="text-end">
+                                <a th:href="@{/recruiter/applications/{id}(id=${app.id})}" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-eye me-1"></i> Review &amp; Action
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div th:if="${applicants == null or applicants.isEmpty()}" class="text-center py-5">
+                <i class="bi bi-people text-muted" style="font-size: 3.5rem;"></i>
+                <h5 class="fw-bold mt-3 mb-1">No Applications Received Yet</h5>
+                <p class="text-muted small mb-0">Eligible students will appear here as soon as they submit applications for this posting.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Student Registration')}"></head>
+<body class="bg-light">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="portal-card shadow-lg p-4 p-md-5 bg-white">
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
+                            <i class="bi bi-mortarboard-fill fs-3"></i>
+                        </div>
+                        <h3 class="fw-bold text-dark">Candidate Enrollment</h3>
+                        <p class="small text-muted">Register your student account to apply for campus placements</p>
+                    </div>
+
+                    <form th:action="@{/register/student}" th:object="${studentDto}" method="post" class="register-form">
+                        <h5 class="fw-bold text-primary mb-3 border-bottom pb-2">1. Personal &amp; Account Information</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Full Name *</label>
+                                <input type="text" th:field="*{fullName}" class="form-control" th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''" placeholder="e.g. Rahul Sharma" required>
+                                <div class="invalid-feedback" th:errors="*{fullName}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">University / College Email *</label>
+                                <input type="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" placeholder="student@campus.edu" required>
+                                <div class="invalid-feedback" th:errors="*{email}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Password *</label>
+                                <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" placeholder="Min. 6 characters" required>
+                                <div class="invalid-feedback" th:errors="*{password}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Confirm Password *</label>
+                                <input type="password" th:field="*{confirmPassword}" class="form-control" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid' : ''" placeholder="Re-type password" required>
+                                <div class="invalid-feedback" th:errors="*{confirmPassword}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Mobile Number</label>
+                                <input type="text" th:field="*{phone}" class="form-control" th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid' : ''" placeholder="+91 9876543210">
+                                <div class="invalid-feedback" th:errors="*{phone}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Enrollment / Roll Number *</label>
+                                <input type="text" th:field="*{enrollmentNumber}" class="form-control" th:classappend="${#fields.hasErrors('enrollmentNumber')} ? 'is-invalid' : ''" placeholder="e.g. MCA/2024/001" required>
+                                <div class="invalid-feedback" th:errors="*{enrollmentNumber}"></div>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold text-primary mb-3 border-bottom pb-2">2. Academic Background</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Course Program *</label>
+                                <select th:field="*{course}" class="form-select" th:classappend="${#fields.hasErrors('course')} ? 'is-invalid' : ''" required>
+                                    <option value="">Select Course</option>
+                                    <option value="MCA">MCA (Master of Computer Applications)</option>
+                                    <option value="B.Tech">B.Tech (Bachelor of Technology)</option>
+                                    <option value="M.Tech">M.Tech (Master of Technology)</option>
+                                    <option value="BCA">BCA (Bachelor of Computer Applications)</option>
+                                    <option value="B.Sc CS">B.Sc Computer Science</option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{course}"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Branch / Department *</label>
+                                <input type="text" th:field="*{branch}" class="form-control" th:classappend="${#fields.hasErrors('branch')} ? 'is-invalid' : ''" placeholder="e.g. Computer Science" required>
+                                <div class="invalid-feedback" th:errors="*{branch}"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small fw-semibold">Grad. Year *</label>
+                                <input type="number" th:field="*{graduationYear}" class="form-control" th:classappend="${#fields.hasErrors('graduationYear')} ? 'is-invalid' : ''" placeholder="2026" required>
+                                <div class="invalid-feedback" th:errors="*{graduationYear}"></div>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small fw-semibold">CGPA (out of 10) *</label>
+                                <input type="number" step="0.01" th:field="*{cgpa}" class="form-control" th:classappend="${#fields.hasErrors('cgpa')} ? 'is-invalid' : ''" placeholder="8.50" required>
+                                <div class="invalid-feedback" th:errors="*{cgpa}"></div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-portal-primary py-2 fw-semibold">
+                                <i class="bi bi-check2-circle me-1"></i> Complete Student Registration
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <small class="text-muted">Already enrolled? <a th:href="@{/login}" class="text-primary fw-semibold">Sign In to Dashboard</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

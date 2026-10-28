@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Notifications')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="portal-card bg-white p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+                <div>
+                    <h3 class="fw-bold text-dark mb-1"><i class="bi bi-bell-fill me-2 text-warning"></i>Placement Notifications</h3>
+                    <p class="small text-muted mb-0">System updates regarding applications, interviews, and company announcements</p>
+                </div>
+                <div th:if="${unreadCount > 0}">
+                    <form th:action="@{/student/notifications/read-all}" method="post">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-check2-all me-1"></i> Mark All as Read
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="list-group list-group-flush" th:if="${notifications != null and !notifications.empty}">
+                <div class="list-group-item p-3 mb-2 border rounded" th:each="n : ${notifications}" th:classappend="${!n.isRead} ? 'bg-light border-primary' : ''">
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+                        <div>
+                            <span th:if="${!n.isRead}" class="badge bg-danger me-2">Unread</span>
+                            <strong class="text-dark" th:text="${n.title}">Notification Title</strong>
+                        </div>
+                        <small class="text-muted"><i class="bi bi-clock me-1"></i> <span th:text="${#temporals.format(n.createdAt, 'dd MMM yyyy, HH:mm')}">25 Oct 14:00</span></small>
+                    </div>
+                    <p class="small text-secondary mb-2" th:text="${n.message}">Notification message details...</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a th:if="${n.link}" th:href="@{${n.link}}" class="btn btn-sm btn-outline-primary py-0">View Details <i class="bi bi-arrow-right"></i></a>
+                        <form th:if="${!n.isRead}" th:action="@{/student/notifications/{id}/read(id=${n.id})}" method="post" class="ms-auto">
+                            <button type="submit" class="btn btn-link btn-sm text-muted text-decoration-none py-0">Mark Read</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center py-5" th:if="${notifications == null or notifications.empty}">
+                <div class="display-3 text-muted mb-3"><i class="bi bi-bell-slash"></i></div>
+                <h4 class="fw-bold text-dark">No Notifications</h4>
+                <p class="text-muted">You are all caught up!</p>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Placement Analytics &amp; Reports')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <h2 class="fw-bold text-dark mb-1">Campus Placement Intelligence &amp; Analytics</h2>
+                <p class="text-muted mb-0 small">Aggregated SQL reporting powered by Spring JdbcTemplate for executive placement metrics</p>
+            </div>
+            <div>
+                <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Control Hub
+                </a>
+            </div>
+        </div>
+
+        <!-- Section 1: Application Funnel Status Distribution -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-funnel-fill text-primary me-2"></i>Application Status Funnel Across University</h5>
+            <div class="row g-3">
+                <div th:each="entry : ${statusBreakdown}" class="col-6 col-md-4 col-lg-2">
+                    <div class="p-3 rounded border text-center bg-light">
+                        <div class="small fw-semibold text-muted text-uppercase" th:text="${entry.key}">APPLIED</div>
+                        <div class="fs-3 fw-bold text-primary mt-1" th:text="${entry.value}">12</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Branch-wise Placement Statistics -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-mortarboard-fill text-success me-2"></i>Branch-Wise Placement Performance</h5>
+            <div th:if="${branchStats != null and !branchStats.isEmpty()}" class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Academic Branch / Specialization</th>
+                            <th class="text-center">Registered Students</th>
+                            <th class="text-center">Total Applications</th>
+                            <th class="text-center">Placed Students</th>
+                            <th class="text-center">Placement Conversion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="row : ${branchStats}">
+                            <td class="fw-bold text-dark" th:text="${row.branch != null ? row.branch : 'General Computer Science'}">Computer Science &amp; Applications</td>
+                            <td class="text-center fw-semibold" th:text="${row.registered_students}">25</td>
+                            <td class="text-center text-primary fw-semibold" th:text="${row.total_applications}">45</td>
+                            <td class="text-center">
+                                <span class="badge bg-success fs-6" th:text="${row.placed_students}">18</span>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-primary-subtle text-primary fw-bold"
+                                      th:if="${row.registered_students > 0}"
+                                      th:text="${#numbers.formatDecimal((row.placed_students * 100.0) / row.registered_students, 1, 1) + '%'}">72%</span>
+                                <span th:unless="${row.registered_students > 0}" class="text-muted">N/A</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${branchStats == null or branchStats.isEmpty()}" class="text-center py-4 text-muted small">
+                No branch data available yet.
+            </div>
+        </div>
+
+        <!-- Section 3: Company & Job Drive Report -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0">
+            <h5 class="fw-bold text-dark mb-3"><i class="bi bi-building-check text-info me-2"></i>Company Recruitment Drive Summary</h5>
+            <div th:if="${companyReports != null and !companyReports.isEmpty()}" class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Job Role</th>
+                            <th>Type</th>
+                            <th class="text-center">Applications</th>
+                            <th class="text-center">Shortlisted</th>
+                            <th class="text-center">Interviews</th>
+                            <th class="text-center">Offered / Placed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="rep : ${companyReports}">
+                            <td class="fw-bold text-dark" th:text="${rep.companyName}">Google India</td>
+                            <td class="text-primary fw-semibold" th:text="${rep.jobTitle}">Software Engineer</td>
+                            <td>
+                                <span class="badge bg-light text-dark border" th:text="${rep.jobType}">FULL_TIME</span>
+                            </td>
+                            <td class="text-center fw-semibold" th:text="${rep.totalApplications}">10</td>
+                            <td class="text-center text-info fw-semibold" th:text="${rep.shortlistedCount}">5</td>
+                            <td class="text-center text-warning fw-semibold" th:text="${rep.interviewsCount}">3</td>
+                            <td class="text-center">
+                                <span class="badge bg-success fs-6" th:text="${rep.selectedCount}">2</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${companyReports == null or companyReports.isEmpty()}" class="text-center py-4 text-muted small">
+                No company drive data available yet.
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

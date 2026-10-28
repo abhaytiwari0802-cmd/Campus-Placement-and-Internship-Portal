@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${job.title})}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="row g-4">
+            <!-- Left Column: Job Details & Company -->
+            <div class="col-lg-8">
+                <div class="portal-card p-4 p-md-5 bg-white mb-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <span class="badge bg-primary-subtle text-primary fw-bold mb-2" th:text="${job.jobType.displayName}">Full Time</span>
+                            <h2 class="fw-bold text-dark mb-1" th:text="${job.title}">Software Development Engineer</h2>
+                            <h5 class="text-secondary fw-semibold" th:text="${job.company.name}">Google India Pvt Ltd</h5>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <!-- Bookmark / Save button -->
+                            <form th:if="${!isSaved}" th:action="@{/student/jobs/{id}/save(id=${job.id})}" method="post">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm" title="Bookmark Job">
+                                    <i class="bi bi-bookmark"></i> Save
+                                </button>
+                            </form>
+                            <form th:if="${isSaved}" th:action="@{/student/jobs/{id}/unsave(id=${job.id})}" method="post">
+                                <input type="hidden" name="redirectUrl" th:value="@{/student/jobs/{id}(id=${job.id})}">
+                                <button type="submit" class="btn btn-warning btn-sm text-dark" title="Remove Bookmark">
+                                    <i class="bi bi-bookmark-fill"></i> Saved
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 p-3 bg-light rounded border mb-4">
+                        <div class="col-sm-6 col-md-3">
+                            <small class="text-muted d-block">Location</small>
+                            <strong class="text-dark"><i class="bi bi-geo-alt text-danger me-1"></i> <span th:text="${job.location}">Bangalore</span></strong>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <small class="text-muted d-block">Compensation / Stipend</small>
+                            <strong class="text-success"><i class="bi bi-cash me-1"></i> <span th:text="${job.salaryOrStipend}">20 LPA</span></strong>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <small class="text-muted d-block">Openings</small>
+                            <strong class="text-dark"><i class="bi bi-people me-1"></i> <span th:text="${job.openings}">5 Positions</span></strong>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <small class="text-muted d-block">Deadline</small>
+                            <strong class="text-danger"><i class="bi bi-clock me-1"></i> <span th:text="${job.deadline}">2026-11-30</span></strong>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold text-dark mb-3">Job Description &amp; Responsibilities</h5>
+                    <div class="text-secondary mb-4" style="line-height: 1.7; white-space: pre-line;" th:text="${job.description}">
+                        Detailed job description...
+                    </div>
+
+                    <h5 class="fw-bold text-dark mb-3">Required Technical Skills</h5>
+                    <div class="p-3 bg-light rounded border mb-4">
+                        <span th:text="${job.requiredSkills != null ? job.requiredSkills : 'Not specified'}">Java, Spring Boot, MySQL</span>
+                    </div>
+
+                    <h5 class="fw-bold text-dark mb-3">About <span th:text="${job.company.name}">Company</span></h5>
+                    <p class="text-secondary small mb-2" th:text="${job.company.description}">Company description...</p>
+                    <a th:if="${job.company.website}" th:href="${job.company.website}" target="_blank" class="small text-primary text-decoration-none">
+                        <i class="bi bi-box-arrow-up-right me-1"></i> Visit Company Website
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Column: Eligibility Checklist & Application Action -->
+            <div class="col-lg-4">
+                <!-- Eligibility Card -->
+                <div class="portal-card p-4 bg-white mb-4">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-patch-check-fill text-primary me-2"></i>Eligibility Screening</h5>
+
+                    <ul class="list-group list-group-flush small mb-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <div>
+                                <span class="d-block fw-semibold">Minimum CGPA Required</span>
+                                <small class="text-muted">Job requires: <span th:text="${job.minCgpa}">8.0</span> | Your CGPA: <strong th:text="${profile.cgpa}">8.85</strong></small>
+                            </div>
+                            <span th:if="${job.minCgpa == null or profile.cgpa >= job.minCgpa}" class="text-success fs-5"><i class="bi bi-check-circle-fill"></i></span>
+                            <span th:unless="${job.minCgpa == null or profile.cgpa >= job.minCgpa}" class="text-danger fs-5"><i class="bi bi-x-circle-fill"></i></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <div>
+                                <span class="d-block fw-semibold">Allowed Programs / Branches</span>
+                                <small class="text-muted">Allowed: <span th:text="${job.allowedBranches != null ? job.allowedBranches : 'All Branches'}">MCA, B.Tech</span> | You: <strong th:text="${profile.course + ' ' + profile.branch}">MCA</strong></small>
+                            </div>
+                            <span th:if="${isEligible}" class="text-success fs-5"><i class="bi bi-check-circle-fill"></i></span>
+                            <span th:unless="${isEligible}" class="text-danger fs-5"><i class="bi bi-x-circle-fill"></i></span>
+                        </li>
+                    </ul>
+
+                    <div th:if="${isEligible}" class="alert alert-success py-2 small mb-0">
+                        <i class="bi bi-check2-all me-1"></i> You meet all academic eligibility conditions for this vacancy.
+                    </div>
+                    <div th:unless="${isEligible}" class="alert alert-danger py-2 small mb-0">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> You do not satisfy the academic prerequisites specified by the employer.
+                    </div>
+                </div>
+
+                <!-- Action Card -->
+                <div class="portal-card p-4 bg-white">
+                    <h5 class="fw-bold text-dark mb-3">Submit Application</h5>
+
+                    <!-- State 1: Already Applied -->
+                    <div th:if="${hasApplied}" class="alert alert-info small text-center p-3 mb-0">
+                        <i class="bi bi-check-circle-fill fs-3 text-primary d-block mb-2"></i>
+                        <h6 class="fw-bold mb-1">Application Submitted</h6>
+                        <p class="mb-3">You have already submitted an application for this vacancy.</p>
+                        <a th:href="@{/student/applications}" class="btn btn-sm btn-outline-primary w-100">Track Application Status</a>
+                    </div>
+
+                    <!-- State 2: Missing Resume -->
+                    <div th:if="${!hasApplied and !hasResume}" class="alert alert-warning small text-center p-3 mb-0">
+                        <i class="bi bi-file-earmark-arrow-up fs-3 text-warning d-block mb-2"></i>
+                        <h6 class="fw-bold mb-1">Resume Required</h6>
+                        <p class="mb-3">Please upload your resume to your profile before submitting job applications.</p>
+                        <a th:href="@{/student/profile}" class="btn btn-sm btn-warning w-100 fw-semibold">Upload Resume Now</a>
+                    </div>
+
+                    <!-- State 3: Ineligible -->
+                    <div th:if="${!hasApplied and hasResume and !isEligible}" class="text-center p-3">
+                        <button class="btn btn-secondary w-100" disabled>Ineligible to Apply</button>
+                        <small class="text-muted d-block mt-2">CGPA or Branch criteria not satisfied.</small>
+                    </div>
+
+                    <!-- State 4: Eligible & Ready to Apply -->
+                    <div th:if="${!hasApplied and hasResume and isEligible}">
+                        <form th:action="@{/student/jobs/{id}/apply(id=${job.id})}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold">Cover Note / Remarks (Optional)</label>
+                                <textarea name="coverLetter" class="form-control form-control-sm" rows="3" placeholder="Explain why you are a strong candidate for this position..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-portal-primary w-100 py-2 fw-semibold" data-confirm="Are you sure you want to submit your application for this opportunity?">
+                                <i class="bi bi-send-check me-1"></i> Confirm &amp; Submit Application
+                            </button>
+                            <small class="text-muted d-block text-center mt-2">Your current profile and uploaded resume will be attached.</small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

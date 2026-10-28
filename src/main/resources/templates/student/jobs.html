@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Browse Opportunities')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <!-- Search & Filter Card -->
+        <div class="portal-card p-4 mb-4 bg-white">
+            <h4 class="fw-bold mb-3 text-dark"><i class="bi bi-search me-2 text-primary"></i>Discover Campus Placement &amp; Internship Opportunities</h4>
+            <form th:action="@{/student/jobs}" method="get" th:object="${searchCriteria}">
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <label class="form-label small fw-semibold">Keywords</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                            <input type="text" th:field="*{keyword}" class="form-control" placeholder="Search by Job Title, Company, or Required Skills...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small fw-semibold">Job Type</label>
+                        <select th:field="*{jobType}" class="form-select">
+                            <option value="">All Opportunity Types</option>
+                            <option th:each="type : ${T(com.portal.model.JobType).values()}"
+                                    th:value="${type}" th:text="${type.displayName}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small fw-semibold">Location</label>
+                        <input type="text" th:field="*{location}" class="form-control" placeholder="e.g. Bangalore, Pune">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-portal-primary w-100 fw-semibold">
+                            <i class="bi bi-funnel me-1"></i> Filter Jobs
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Job Listings -->
+        <div class="row g-4" th:if="${jobs != null and !jobs.empty}">
+            <div class="col-md-6 col-lg-4" th:each="job : ${jobs}">
+                <div class="portal-card h-100 d-flex flex-column justify-content-between p-4 bg-white">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge bg-primary-subtle text-primary fw-semibold" th:text="${job.jobType.displayName}">Full Time</span>
+                            <!-- Eligibility Indicator -->
+                            <span th:if="${jobService.isStudentEligible(studentProfile, job)}" class="badge bg-success-subtle text-success border border-success-subtle">
+                                <i class="bi bi-check-circle-fill me-1"></i> You are Eligible
+                            </span>
+                            <span th:unless="${jobService.isStudentEligible(studentProfile, job)}" class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle">
+                                <i class="bi bi-exclamation-triangle-fill me-1"></i> Check Criteria
+                            </span>
+                        </div>
+
+                        <h5 class="fw-bold text-dark mb-1" th:text="${job.title}">Job Title</h5>
+                        <p class="text-secondary fw-semibold mb-2" th:text="${job.company.name}">Company Name</p>
+
+                        <div class="small text-muted mb-3">
+                            <div><i class="bi bi-geo-alt me-1 text-danger"></i> <span th:text="${job.location}">Bangalore</span></div>
+                            <div><i class="bi bi-cash-stack me-1 text-success"></i> <span th:text="${job.salaryOrStipend}">18-24 LPA</span></div>
+                            <div><i class="bi bi-award me-1 text-primary"></i> Min CGPA: <span th:text="${job.minCgpa}">8.0</span></div>
+                        </div>
+
+                        <p class="small text-secondary mb-3 text-truncate-3" th:text="${job.description}">Job description preview...</p>
+                    </div>
+
+                    <div class="border-top pt-3 d-flex justify-content-between align-items-center">
+                        <small class="text-muted"><i class="bi bi-hourglass-split me-1"></i> Apply by: <span th:text="${job.deadline}">2026-11-30</span></small>
+                        <a th:href="@{/student/jobs/{id}(id=${job.id})}" class="btn btn-sm btn-portal-primary">
+                            View &amp; Apply <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="portal-card p-5 text-center bg-white" th:if="${jobs == null or jobs.empty}">
+            <div class="display-4 text-muted mb-3"><i class="bi bi-search"></i></div>
+            <h4 class="fw-bold text-dark">No Job Opportunities Found</h4>
+            <p class="text-muted">No open positions matched your current filter criteria. Try clearing search keywords.</p>
+            <a th:href="@{/student/jobs}" class="btn btn-outline-primary">Clear Filters</a>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

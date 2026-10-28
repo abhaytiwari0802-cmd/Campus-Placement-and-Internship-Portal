@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Recruiter Registration')}"></head>
+<body class="bg-light">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="portal-card shadow-lg p-4 p-md-5 bg-white">
+                    <div class="text-center mb-4">
+                        <div class="rounded-circle bg-success-subtle text-success d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
+                            <i class="bi bi-briefcase-fill fs-3"></i>
+                        </div>
+                        <h3 class="fw-bold text-dark">Recruiter &amp; Employer Registration</h3>
+                        <p class="small text-muted">Register your hiring account to publish opportunities and discover talent</p>
+                    </div>
+
+                    <form th:action="@{/register/recruiter}" th:object="${recruiterDto}" method="post" class="register-form">
+                        <h5 class="fw-bold text-success mb-3 border-bottom pb-2">1. Recruiter Credentials</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Full Name *</label>
+                                <input type="text" th:field="*{fullName}" class="form-control" th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''" placeholder="e.g. Sundar Raman" required>
+                                <div class="invalid-feedback" th:errors="*{fullName}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Official Corporate Email *</label>
+                                <input type="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" placeholder="recruiter@company.com" required>
+                                <div class="invalid-feedback" th:errors="*{email}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Password *</label>
+                                <input type="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" placeholder="Min. 6 characters" required>
+                                <div class="invalid-feedback" th:errors="*{password}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Confirm Password *</label>
+                                <input type="password" th:field="*{confirmPassword}" class="form-control" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid' : ''" placeholder="Re-type password" required>
+                                <div class="invalid-feedback" th:errors="*{confirmPassword}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Contact / Phone Number</label>
+                                <input type="text" th:field="*{phone}" class="form-control" th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid' : ''" placeholder="+91 9876543210">
+                                <div class="invalid-feedback" th:errors="*{phone}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Job Designation *</label>
+                                <input type="text" th:field="*{designation}" class="form-control" th:classappend="${#fields.hasErrors('designation')} ? 'is-invalid' : ''" placeholder="e.g. University Hiring Lead" required>
+                                <div class="invalid-feedback" th:errors="*{designation}"></div>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold text-success mb-3 border-bottom pb-2">2. Corporate Entity Details</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Company Name *</label>
+                                <input type="text" th:field="*{companyName}" class="form-control" th:classappend="${#fields.hasErrors('companyName')} ? 'is-invalid' : ''" placeholder="e.g. Google India Pvt Ltd" required>
+                                <div class="invalid-feedback" th:errors="*{companyName}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Industry / Domain</label>
+                                <input type="text" th:field="*{industry}" class="form-control" placeholder="e.g. Cloud Computing &amp; AI">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Company Website</label>
+                                <input type="url" th:field="*{website}" class="form-control" placeholder="https://careers.company.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Office Location / City</label>
+                                <input type="text" th:field="*{companyLocation}" class="form-control" placeholder="e.g. Bangalore, Hyderabad">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Brief Company Description</label>
+                                <textarea th:field="*{companyDescription}" class="form-control" rows="2" placeholder="Brief overview of company operations and core values"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info py-2 small d-flex align-items-center">
+                            <i class="bi bi-shield-exclamation fs-5 me-2"></i>
+                            <div>Newly submitted companies require administrator verification prior to job publication.</div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success py-2 fw-semibold">
+                                <i class="bi bi-building-check me-1"></i> Submit Recruiter Registration
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <small class="text-muted">Already registered? <a th:href="@{/login}" class="text-success fw-semibold">Sign In to Dashboard</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

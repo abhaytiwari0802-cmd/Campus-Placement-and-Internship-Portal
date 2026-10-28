@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Student Profile & Resume')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="row g-4">
+            <!-- Left Column: Resume Management & Profile Summary -->
+            <div class="col-lg-4">
+                <!-- Profile Strength Card -->
+                <div class="portal-card p-4 mb-4 text-center bg-white">
+                    <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                        <i class="bi bi-person-fill fs-2"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1" th:text="${profile.user.fullName}">Rahul Sharma</h5>
+                    <p class="small text-muted mb-2" th:text="${profile.user.email}">student@campus.edu</p>
+                    <span class="badge bg-primary-subtle text-primary mb-3" th:text="${profile.enrollmentNumber}">MCA/2024/001</span>
+
+                    <div class="p-3 bg-light rounded text-start border">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small fw-bold text-secondary">Profile Completion</span>
+                            <span class="badge bg-success" th:text="${profile.profileCompletion + '%'}">85%</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" role="progressbar" th:style="'width: ' + ${profile.profileCompletion} + '%;'"></div>
+                        </div>
+                        <small class="text-muted d-block mt-2">A complete profile with skills and resume increases recruiter shortlisting chances.</small>
+                    </div>
+                </div>
+
+                <!-- Safe Resume Upload & Download Card -->
+                <div class="portal-card p-4 bg-white">
+                    <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-file-earmark-pdf me-2"></i>Resume Management</h5>
+
+                    <!-- If already uploaded -->
+                    <div th:if="${latestResume != null}" class="p-3 border rounded bg-light mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-file-earmark-pdf-fill text-danger fs-3 me-2"></i>
+                            <div class="overflow-hidden">
+                                <strong class="d-block text-truncate small" th:text="${latestResume.originalFilename}">resume.pdf</strong>
+                                <small class="text-muted" th:text="${latestResume.fileSize / 1024 + ' KB'}">124 KB</small>
+                            </div>
+                        </div>
+                        <a th:href="@{/student/resume/download/{id}(id=${latestResume.id})}" class="btn btn-sm btn-outline-primary w-100">
+                            <i class="bi bi-download me-1"></i> Download Current Resume
+                        </a>
+                    </div>
+
+                    <div th:if="${latestResume == null}" class="alert alert-warning small mb-3">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> No resume attached yet. You must upload a resume to submit job applications.
+                    </div>
+
+                    <!-- Upload Form -->
+                    <form th:action="@{/student/resume/upload}" method="post" enctype="multipart/form-data">
+                        <label class="form-label small fw-semibold">Upload New Resume (.PDF, .DOC, .DOCX)</label>
+                        <input type="file" name="file" class="form-control form-control-sm mb-2" accept=".pdf,.doc,.docx" required>
+                        <small class="text-muted d-block mb-3">Max file size: 5 MB. Safely stored and authorized.</small>
+                        <button type="submit" class="btn btn-portal-primary btn-sm w-100">
+                            <i class="bi bi-cloud-arrow-up me-1"></i> Upload &amp; Save Resume
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column: Edit Profile Form -->
+            <div class="col-lg-8">
+                <div class="portal-card p-4 bg-white">
+                    <h4 class="fw-bold text-dark mb-4 border-bottom pb-2">Academic &amp; Professional Profile</h4>
+
+                    <form th:action="@{/student/profile/update}" th:object="${profileDto}" method="post">
+                        <input type="hidden" th:field="*{id}">
+
+                        <h6 class="fw-bold text-secondary mb-3">1. Personal &amp; Contact Details</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Full Name *</label>
+                                <input type="text" th:field="*{fullName}" class="form-control" th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''" required>
+                                <div class="invalid-feedback" th:errors="*{fullName}"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Phone Number</label>
+                                <input type="text" th:field="*{phone}" class="form-control" placeholder="+91 9876543210">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">Enrollment / Roll Number (Read-only)</label>
+                                <input type="text" th:field="*{enrollmentNumber}" class="form-control bg-light" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold">LinkedIn Profile URL</label>
+                                <input type="url" th:field="*{linkedinUrl}" class="form-control" placeholder="https://linkedin.com/in/username">
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-secondary mb-3">2. Academic Record</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Course Program *</label>
+                                <input type="text" th:field="*{course}" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Branch / Department *</label>
+                                <input type="text" th:field="*{branch}" class="form-control" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small fw-semibold">Grad. Year *</label>
+                                <input type="number" th:field="*{graduationYear}" class="form-control" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label small fw-semibold">CGPA *</label>
+                                <input type="number" step="0.01" th:field="*{cgpa}" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-secondary mb-3">3. Skills, Projects &amp; Certifications</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Technical Skills (Comma Separated)</label>
+                                <input type="text" th:field="*{skills}" class="form-control" placeholder="e.g. Java, Spring Boot, MySQL, REST APIs, Git, Docker">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Academic &amp; Personal Projects</label>
+                                <textarea th:field="*{projects}" class="form-control" rows="3" placeholder="Describe key projects, tech stack used, and GitHub links"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">Certifications &amp; Achievements</label>
+                                <textarea th:field="*{certifications}" class="form-control" rows="2" placeholder="e.g. Oracle Certified Java Associate, AWS Cloud Practitioner"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-portal-primary px-4 fw-semibold">
+                                <i class="bi bi-save me-1"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

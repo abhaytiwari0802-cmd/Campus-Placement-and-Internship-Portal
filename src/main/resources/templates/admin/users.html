@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('User Management')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <h2 class="fw-bold text-dark mb-1">User Account Governance</h2>
+                <p class="text-muted mb-0 small">Audit, inspect, and manage authorization statuses for students, recruiters, and administrators</p>
+            </div>
+            <div>
+                <a th:href="@{/admin/dashboard}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Control Hub
+                </a>
+            </div>
+        </div>
+
+        <div class="portal-card p-4 bg-white shadow-sm border-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>User ID</th>
+                            <th>Full Name &amp; Contact</th>
+                            <th>Email Address</th>
+                            <th>Portal Role</th>
+                            <th>Current Status</th>
+                            <th>Registration Date</th>
+                            <th class="text-end">Update Account Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${users}">
+                            <td class="fw-bold text-muted" th:text="${'#' + user.id}">#1</td>
+                            <td>
+                                <div class="fw-bold text-dark" th:text="${user.fullName}">Rahul Sharma</div>
+                                <div class="small text-muted" th:text="${user.phone != null ? user.phone : 'No phone'}">+91 9123456789</div>
+                            </td>
+                            <td class="small" th:text="${user.email}">user@campus.edu</td>
+                            <td>
+                                <span th:if="${user.role.name() == 'ROLE_STUDENT'}" class="badge bg-primary">Student</span>
+                                <span th:if="${user.role.name() == 'ROLE_RECRUITER'}" class="badge bg-success">Recruiter</span>
+                                <span th:if="${user.role.name() == 'ROLE_ADMIN'}" class="badge bg-danger">Administrator</span>
+                            </td>
+                            <td>
+                                <span th:if="${user.status.name() == 'ACTIVE'}" class="badge bg-success">Active</span>
+                                <span th:if="${user.status.name() == 'INACTIVE'}" class="badge bg-secondary">Inactive</span>
+                                <span th:if="${user.status.name() == 'SUSPENDED'}" class="badge bg-danger">Suspended</span>
+                            </td>
+                            <td class="small text-muted" th:text="${#temporals.format(user.createdAt, 'dd MMM yyyy')}">20 Oct 2026</td>
+                            <td class="text-end">
+                                <form th:if="${user.role.name() != 'ROLE_ADMIN'}" th:action="@{/admin/users/{id}/status(id=${user.id})}" method="post" class="d-inline-flex gap-2 justify-content-end align-items-center">
+                                    <select name="status" class="form-select form-select-sm" style="width: auto;">
+                                        <option value="ACTIVE" th:selected="${user.status.name() == 'ACTIVE'}">ACTIVE</option>
+                                        <option value="INACTIVE" th:selected="${user.status.name() == 'INACTIVE'}">INACTIVE</option>
+                                        <option value="SUSPENDED" th:selected="${user.status.name() == 'SUSPENDED'}">SUSPENDED</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary" title="Save Status">
+                                        <i class="bi bi-check-lg"></i>
+                                    </button>
+                                </form>
+                                <span th:if="${user.role.name() == 'ROLE_ADMIN'}" class="small text-muted fst-italic">Protected System Admin</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

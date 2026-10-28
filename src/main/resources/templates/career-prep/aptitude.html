@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Quantitative Aptitude &amp; Reasoning')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small">
+                        <li class="breadcrumb-item"><a th:href="@{/career-prep}">Career Prep</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Aptitude &amp; Reasoning</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold text-dark mb-1">Quantitative Aptitude &amp; Logical Reasoning</h2>
+                <p class="text-muted mb-0 small">Master first-round campus screening assessments for top IT services and product firms</p>
+            </div>
+            <div>
+                <a th:href="@{/career-prep}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Career Hub
+                </a>
+            </div>
+        </div>
+
+        <!-- Section 1: Quantitative Aptitude Core Formulas -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-calculator-fill text-primary me-2"></i>Key Quantitative Formulas &amp; Shortcuts</h4>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-primary mb-2">1. Time &amp; Work</h6>
+                        <ul class="small mb-0 text-secondary ps-3">
+                            <li>If A can do a piece of work in <strong>n</strong> days, A's 1 day's work = <code>1/n</code>.</li>
+                            <li>If A is twice as good a workman as B, then ratio of work done = <strong>2 : 1</strong> and ratio of times taken = <strong>1 : 2</strong>.</li>
+                            <li>Combined work formula: <code>Total Days = (A &times; B) / (A + B)</code>.</li>
+                            <li>Pipes &amp; Cisterns: Inlet fills at <code>1/x</code>, outlet empties at <code>1/y</code>. Net rate = <code>1/x - 1/y</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-primary mb-2">2. Speed, Distance &amp; Time</h6>
+                        <ul class="small mb-0 text-secondary ps-3">
+                            <li>Speed = <code>Distance / Time</code>; 1 km/h = <code>5/18 m/s</code>; 1 m/s = <code>18/5 km/h</code>.</li>
+                            <li>Average speed for equal distances: <code>(2 &times; u &times; v) / (u + v)</code>.</li>
+                            <li>Relative speed in opposite directions: <code>u + v</code>; in same direction: <code>|u - v|</code>.</li>
+                            <li>Trains passing a stationary object of negligible width: <code>Distance = Length of train</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-primary mb-2">3. Profit, Loss &amp; Percentage</h6>
+                        <ul class="small mb-0 text-secondary ps-3">
+                            <li>Gain % = <code>(Gain &times; 100) / Cost Price</code>.</li>
+                            <li>Loss % = <code>(Loss &times; 100) / Cost Price</code>.</li>
+                            <li>Selling Price with Gain: <code>SP = [(100 + Gain%) / 100] &times; CP</code>.</li>
+                            <li>Successive Percentage Change: <code>a + b + (ab / 100)%</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-primary mb-2">4. Permutations, Combinations &amp; Probability</h6>
+                        <ul class="small mb-0 text-secondary ps-3">
+                            <li>Permutations (Arrangement): <code>nPr = n! / (n - r)!</code>.</li>
+                            <li>Combinations (Selection): <code>nCr = n! / [r! &times; (n - r)!]</code>.</li>
+                            <li>Probability <code>P(E) = n(E) / n(S)</code>, where <code>0 &le; P(E) &le; 1</code>.</li>
+                            <li>For mutually exclusive events: <code>P(A &cup; B) = P(A) + P(B)</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Solved Practice Problems with Solutions -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 mb-4">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-question-circle-fill text-warning me-2"></i>Frequently Asked Interview Aptitude Questions</h4>
+
+            <div class="accordion" id="aptitudeAccordion">
+                <!-- Q1 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Q1. A and B can do a job together in 12 days. A alone can do it in 20 days. How many days will B alone take to finish the work?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#aptitudeAccordion">
+                        <div class="accordion-body bg-light">
+                            <p class="mb-1 fw-bold text-success">Answer: 30 Days</p>
+                            <p class="small text-muted mb-0">
+                                <strong>Explanation:</strong><br>
+                                (A + B)'s 1 day work = <code>1/12</code>.<br>
+                                A's 1 day work = <code>1/20</code>.<br>
+                                Therefore, B's 1 day work = <code>(1/12) - (1/20) = (5 - 3) / 60 = 2/60 = 1/30</code>.<br>
+                                Hence, B alone can complete the entire job in <strong>30 days</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Q2. A train 150 meters long passes a pole in 9 seconds. What is the speed of the train in km/h?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#aptitudeAccordion">
+                        <div class="accordion-body bg-light">
+                            <p class="mb-1 fw-bold text-success">Answer: 60 km/h</p>
+                            <p class="small text-muted mb-0">
+                                <strong>Explanation:</strong><br>
+                                Speed = Distance / Time = <code>150 / 9 m/s = 50/3 m/s</code>.<br>
+                                To convert m/s to km/h, multiply by 18/5:<br>
+                                Speed in km/h = <code>(50/3) &times; (18/5) = 10 &times; 6 = 60 km/h</code>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="accordion-item mb-2 border rounded">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Q3. Logical Reasoning: In a code language, if "SPRING" is written as "UNUKSK", how will "SUMMER" be coded?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#aptitudeAccordion">
+                        <div class="accordion-body bg-light">
+                            <p class="mb-1 fw-bold text-success">Answer: UWPQIX</p>
+                            <p class="small text-muted mb-0">
+                                <strong>Explanation:</strong><br>
+                                Pattern is sequential addition of increasing prime numbers or odds: S(+2)=U, P(+2)=R, etc. Check pattern: S+2=U, U+2=W, M+3=P, M+4=Q, E+4=I, R+6=X.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="accordion-item border rounded">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            Q4. A card is drawn from a well-shuffled pack of 52 cards. What is the probability of getting a queen of clubs or a king of hearts?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#aptitudeAccordion">
+                        <div class="accordion-body bg-light">
+                            <p class="mb-1 fw-bold text-success">Answer: 1 / 26</p>
+                            <p class="small text-muted mb-0">
+                                <strong>Explanation:</strong><br>
+                                Total cards n(S) = 52.<br>
+                                Favorable events: Queen of clubs = 1, King of hearts = 1. n(E) = 1 + 1 = 2.<br>
+                                Probability = <code>2 / 52 = 1 / 26</code>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Time Management Tips for Online Screening -->
+        <div class="portal-card p-4 bg-white shadow-sm border-0 border-start border-4 border-info">
+            <h5 class="fw-bold text-dark mb-2"><i class="bi bi-stopwatch text-info me-2"></i>Campus Online Test Time Management Strategy</h5>
+            <div class="row g-3 small text-secondary">
+                <div class="col-md-4">
+                    <strong>1. The 60-Second Rule:</strong> If an aptitude problem is not crackable within 60 seconds, flag it and move forward immediately.
+                </div>
+                <div class="col-md-4">
+                    <strong>2. Answer Elimination:</strong> Use option back-substitution (plugging values from options into equations) to solve algebra &amp; age problems in half the time.
+                </div>
+                <div class="col-md-4">
+                    <strong>3. Accuracy over Guesswork:</strong> Most campus drive tests (TCS NQT, Infosys, Capgemini) penalize negative marks for wrong answers in advanced sections.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

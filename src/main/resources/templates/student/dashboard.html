@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Student Dashboard')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: alerts}"></div>
+
+    <main class="container my-4">
+        <!-- Student Welcome Header -->
+        <div class="portal-card p-4 mb-4 bg-white border-start border-4 border-primary">
+            <div class="row align-items-center g-3">
+                <div class="col-md-8">
+                    <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-1 rounded-pill mb-2">Student Placement Dashboard</span>
+                    <h2 class="fw-bold mb-1" th:text="${profile.user.fullName}">Rahul Sharma</h2>
+                    <p class="text-muted mb-0 small">
+                        <strong>Roll No:</strong> <span th:text="${profile.enrollmentNumber}">MCA/2024/001</span> |
+                        <strong>Program:</strong> <span th:text="${profile.course}">MCA</span> - <span th:text="${profile.branch}">CS</span> |
+                        <strong>CGPA:</strong> <span class="badge bg-success" th:text="${profile.cgpa}">8.85</span> |
+                        <strong>Batch:</strong> <span th:text="${profile.graduationYear}">2026</span>
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="d-inline-block text-start p-3 bg-light rounded border w-100">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small fw-bold text-secondary">Profile Strength</span>
+                            <span class="badge bg-primary" th:text="${profile.profileCompletion + '%'}">85%</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-primary" role="progressbar" th:style="'width: ' + ${profile.profileCompletion} + '%;'" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <a th:href="@{/student/profile}" class="small text-decoration-none text-primary mt-2 d-inline-block"><i class="bi bi-pencil-square me-1"></i> Update Profile &amp; Resume</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 Key Stat Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-lg-3">
+                <div class="stat-card bg-primary-grad">
+                    <div>
+                        <div class="stat-number" th:text="${totalApps}">2</div>
+                        <div class="stat-label">Applications Submitted</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-file-earmark-check"></i></div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="stat-card bg-warning-grad">
+                    <div>
+                        <div class="stat-number" th:text="${savedJobsCount}">1</div>
+                        <div class="stat-label">Bookmarked Jobs</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-bookmark-heart"></i></div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="stat-card bg-success-grad">
+                    <div>
+                        <div class="stat-number" th:text="${upcomingInterviews != null ? upcomingInterviews.size() : 0}">1</div>
+                        <div class="stat-label">Upcoming Interviews</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-calendar-event"></i></div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="stat-card bg-info-grad">
+                    <div>
+                        <div class="stat-number" th:text="${unreadNotifications}">1</div>
+                        <div class="stat-label">Unread Notifications</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-bell"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Column: Upcoming Interviews & Recent Applications -->
+            <div class="col-lg-8">
+                <!-- Upcoming Interviews Alert -->
+                <div class="portal-card mb-4" th:if="${upcomingInterviews != null and !upcomingInterviews.empty}">
+                    <div class="portal-card-header bg-white">
+                        <span class="text-primary fw-bold"><i class="bi bi-camera-video me-2"></i>Upcoming Placement Interviews</span>
+                        <a th:href="@{/student/interviews}" class="btn btn-sm btn-outline-primary">View All</a>
+                    </div>
+                    <div class="portal-card-body">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item p-3 border rounded mb-2 bg-light" th:each="inv : ${upcomingInterviews}">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="fw-bold text-dark mb-0" th:text="${inv.application.job.title}">Cloud Support Associate</h6>
+                                    <span class="badge bg-primary" th:text="${inv.interviewMode.label}">Online / Virtual</span>
+                                </div>
+                                <p class="small text-secondary mb-2">
+                                    <strong th:text="${inv.application.job.company.name}">Microsoft IDC</strong> |
+                                    <i class="bi bi-calendar me-1"></i> <span th:text="${inv.interviewDate}">2026-10-27</span> at <span th:text="${inv.interviewTime}">11:00</span>
+                                </p>
+                                <div class="p-2 bg-white rounded border small">
+                                    <strong>Meeting Link / Location:</strong>
+                                    <a th:href="${inv.locationOrLink}" target="_blank" class="text-break" th:text="${inv.locationOrLink}">https://teams.microsoft.com/...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Applications Table -->
+                <div class="portal-card">
+                    <div class="portal-card-header bg-white">
+                        <span class="text-dark fw-bold"><i class="bi bi-clock-history me-2"></i>Recent Applications</span>
+                        <a th:href="@{/student/applications}" class="btn btn-sm btn-outline-secondary">My All Applications</a>
+                    </div>
+                    <div class="portal-card-body p-0">
+                        <div class="table-responsive" th:if="${recentApplications != null and !recentApplications.empty}">
+                            <table class="table portal-table table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Opportunity</th>
+                                        <th>Company</th>
+                                        <th>Applied On</th>
+                                        <th>Status</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="app : ${recentApplications}">
+                                        <td>
+                                            <a th:href="@{/student/jobs/{id}(id=${app.job.id})}" class="fw-semibold text-primary text-decoration-none" th:text="${app.job.title}">SDE-1</a>
+                                            <div class="small text-muted" th:text="${app.job.jobType.displayName}">Full Time</div>
+                                        </td>
+                                        <td th:text="${app.job.company.name}">Google India</td>
+                                        <td th:text="${#temporals.format(app.appliedAt, 'dd MMM yyyy')}">25 Oct 2026</td>
+                                        <td>
+                                            <span th:class="'badge bg-' + ${app.status.badgeColor}" th:text="${app.status.label}">Applied</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a th:href="@{/student/jobs/{id}(id=${app.job.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-4 text-center text-muted" th:if="${recentApplications == null or recentApplications.empty}">
+                            <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                            <p class="mb-2">You have not submitted any applications yet.</p>
+                            <a th:href="@{/student/jobs}" class="btn btn-sm btn-portal-primary">Explore Eligible Opportunities</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Quick Actions & Notifications -->
+            <div class="col-lg-4">
+                <!-- Quick Navigation Card -->
+                <div class="portal-card mb-4">
+                    <div class="portal-card-header bg-white">
+                        <span class="text-dark fw-bold"><i class="bi bi-lightning-charge me-2 text-warning"></i>Quick Actions</span>
+                    </div>
+                    <div class="portal-card-body">
+                        <div class="d-grid gap-2">
+                            <a th:href="@{/student/jobs}" class="btn btn-portal-primary text-start">
+                                <i class="bi bi-search me-2"></i> Browse &amp; Apply for Jobs
+                            </a>
+                            <a th:href="@{/student/profile}" class="btn btn-outline-secondary text-start">
+                                <i class="bi bi-file-earmark-arrow-up me-2"></i> Upload / Replace Resume
+                            </a>
+                            <a th:href="@{/career-prep}" class="btn btn-outline-secondary text-start">
+                                <i class="bi bi-journal-code me-2"></i> Career Prep Questions &amp; Plan
+                            </a>
+                            <a th:href="@{/student/saved-jobs}" class="btn btn-outline-secondary text-start">
+                                <i class="bi bi-bookmark-heart me-2"></i> View Saved Opportunities
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Notifications Card -->
+                <div class="portal-card">
+                    <div class="portal-card-header bg-white">
+                        <span class="text-dark fw-bold"><i class="bi bi-bell me-2 text-primary"></i>Recent Alerts</span>
+                        <a th:href="@{/student/notifications}" class="small text-decoration-none">View All</a>
+                    </div>
+                    <div class="portal-card-body p-0">
+                        <div class="list-group list-group-flush" th:if="${recentNotifications != null and !recentNotifications.empty}">
+                            <div class="list-group-item p-3" th:each="n : ${recentNotifications}">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <strong class="small text-dark" th:text="${n.title}">Notification Title</strong>
+                                    <span th:if="${!n.isRead}" class="badge bg-danger rounded-pill">New</span>
+                                </div>
+                                <p class="small text-secondary mb-1" th:text="${n.message}">Notification message text...</p>
+                                <small class="text-muted"><i class="bi bi-clock me-1"></i> <span th:text="${#temporals.format(n.createdAt, 'dd MMM HH:mm')}">25 Oct 14:00</span></small>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center text-muted" th:if="${recentNotifications == null or recentNotifications.empty}">
+                            <small>No recent notifications.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Page Not Found (404)')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7 text-center">
+                <div class="portal-card p-5 bg-white shadow-sm border-0">
+                    <div class="text-warning mb-4">
+                        <i class="bi bi-compass-fill" style="font-size: 5rem;"></i>
+                    </div>
+                    <span class="badge bg-warning-subtle text-warning-emphasis px-3 py-1 rounded-pill fw-semibold mb-2">HTTP 404 Not Found</span>
+                    <h1 class="fw-bold text-dark mb-3">Page or Resource Not Found</h1>
+                    <p class="text-muted mb-4 lead" th:text="${message != null ? message : 'The page, job posting, or candidate profile you are looking for does not exist or has been removed.'}">
+                        The requested resource was not found on this server.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary px-4">
+                            <i class="bi bi-arrow-left me-1"></i> Go Back
+                        </a>
+                        <a th:href="@{/}" class="btn btn-primary px-4">
+                            <i class="bi bi-house-door me-1"></i> Return Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+    <div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
